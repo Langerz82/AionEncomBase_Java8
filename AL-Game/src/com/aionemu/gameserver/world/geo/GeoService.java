@@ -120,6 +120,8 @@ public class GeoService {
 				object.getZ() - 0.6f, x, y, z, changeDirection, true, object.getInstanceId(), intentions);
 	}
 
+	public boolean canSee(VisibleObject object, float x, float y, float z) {
+		if (!GeoDataConfig.CANSEE_ENABLE) {
 			return true;
 		}
 		float limit = (float) MathUtil.getDistance(object.getX(), object.getY(), object.getZ(), x, y, z);
