@@ -117,7 +117,13 @@
         <mkdir dir="${build.dist.gs}/data"/>
         <mkdir dir="${build.dist.gs}/libs"/>
         <mkdir dir="${build.dist.gs}/sql"/>
-        
+
+        <copy todir="${build.dist.gs}">
+            <fileset dir="dist">
+                <include name="*"/>
+            </fileset>
+        </copy>
+
         <!-- 复制 JAR 文件到发布目录 / Copy JAR file to distribution directory -->
         <copy todir="${build.dist.gs}/libs">
             <fileset dir="${build}">
