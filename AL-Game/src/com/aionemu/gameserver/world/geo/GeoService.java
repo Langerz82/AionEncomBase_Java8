@@ -120,6 +120,18 @@ public class GeoService {
 				object.getZ() - 0.6f, x, y, z, changeDirection, true, object.getInstanceId(), intentions);
 	}
 
+			return true;
+		}
+		float limit = (float) MathUtil.getDistance(object.getX(), object.getY(), object.getZ(), x, y, z);
+		limit += 2.0f;
+		if (limit <= 0) {
+			return true;
+		}
+		float upperHalf = object.getObjectTemplate().getBoundRadius().getUpper() / 2;
+		return geoData.getMap(object.getWorldId()).canSee(object.getX(), object.getY(),
+			object.getZ() + upperHalf, x, y, z + upperHalf, limit, object.getInstanceId());
+	}
+
 	public boolean canSee(VisibleObject object, VisibleObject target) {
     // 1. 提前返回优化 / Early return optimization
     if (!GeoDataConfig.CANSEE_ENABLE) {

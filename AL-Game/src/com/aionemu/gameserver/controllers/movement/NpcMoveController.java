@@ -1,6 +1,6 @@
 /*
  * Decompiled with CFR 0.150.
- * 
+ *
  * Could not load the following classes:
  *  org.slf4j.Logger
  *  org.slf4j.LoggerFactory
@@ -41,6 +41,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.eleanor.Global;
 import com.eleanor.processors.movement.motor.FollowMotor;
+
+import com.aionemu.gameserver.configs.main.AIConfig;
+import com.aionemu.gameserver.geoEngine.math.Vector3f;
 
 public class NpcMoveController
         extends CreatureMoveController<Npc> {
@@ -557,4 +560,27 @@ public class NpcMoveController
     public void skillMovement() {
         // TODO Auto-generated method stub
     }
+
+    public boolean checkLinePoint(Vector3f dest) {
+  		Vector3f p1 = new Vector3f(owner.getX(), owner.getY(), owner.getZ());
+  		Vector3f p2 = new Vector3f(dest.x, dest.y, dest.z);
+  		float dist = (float) MathUtil.getDistance(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+  		int points = (int) Math.ceil(dist);
+  		float prevZ = p1.z;
+  		for (int i=1; i < points; ++i)
+  		{
+  			Point3D p3 = MathUtil.getPointBetweenLine(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, (float) i/points);
+
+  			if (GeoDataConfig.GEO_ENABLE && GeoDataConfig.GEO_NPC_MOVE) {
+  				float tz = getTargetZ(owner, p3.getX(), p3.getY(), p3.getZ());
+  				float cz = Math.abs(prevZ - tz);
+  				if (cz > (AIConfig.MAXIMUM_MOVE_SLANT)) {
+  					return false;
+  				}
+  				prevZ = tz;
+  			}
+  		}
+  		return true;
+  	}
+
 }

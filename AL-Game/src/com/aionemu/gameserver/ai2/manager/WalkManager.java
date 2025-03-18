@@ -160,7 +160,7 @@ public class WalkManager {
 	/**
 	 * Is this npc will walk. Currently all monsters will walk and those npc wich
 	 * has walk routes
-	 * 
+	 *
 	 * @param npcAI
 	 * @return
 	 */
@@ -234,6 +234,90 @@ public class WalkManager {
 	 * @param npcAI
 	 */
 	private static void chooseNextRandomPoint(final NpcAI2 npcAI) {
+		//log.info("WalkManager chooseNextRandomPoint.");
+		final Npc owner = npcAI.getOwner();
+
+		//if (npcAI.isInState(AIState.WALKING)) {
+		//owner.getMoveController().setCurrentRoute(null);
+			//owner.getMoveController().resetMove();
+		//}
+		owner.getMoveController().abortMove();
+		final int randomWalkNr = owner.getSpawn().getRandomWalk();
+		final int walkRange = Math.max(randomWalkNr, WALK_RANDOM_RANGE);
+
+		ThreadPoolManager.getInstance().schedule(new Runnable() {
+
+			@Override
+			public void run() {
+					//log.info("[WalkManager] chooseNextRandomPoint, thread run.");
+					//log.info("[WalkManager] chooseNextRandomPoint, getState:"+npcAI.getState());
+					//log.info("[WalkManager] chooseNextRandomPoint, getSubState:"+npcAI.getSubState());
+				if (npcAI.isInState(AIState.WALKING)) {
+					owner.getMoveController().setCurrentRoute(null);
+					owner.getMoveController().abortMove();
+				}
+
+
+				if (!npcAI.isAnyPlayerNear(AIConfig.RANDOMWALK_PLAYERMAXDIST)) {
+					chooseNextRandomPoint(npcAI);
+					return;
+				}
+
+				if (npcAI.isInState(AIState.WALKING)) {
+					float distToSpawn = (float) owner.getDistanceToSpawnLocation();
+					if (distToSpawn > walkRange) {
+						owner.getMoveController().moveToHome();
+						return;
+					}
+
+					Vector3f loc = null;
+					int i=0;
+					while(i++ < AIConfig.RANDOM_MAX_TRIES) {
+						int nextX = Rnd.nextInt(walkRange * 2) - walkRange;
+						int nextY = Rnd.nextInt(walkRange * 2) - walkRange;
+
+						if (GeoDataConfig.GEO_ENABLE && GeoDataConfig.GEO_NPC_MOVE) {
+							byte flags = (byte) (CollisionIntention.PHYSICAL.getId() | CollisionIntention.DOOR.getId() | CollisionIntention.WALK.getId());
+							loc = GeoService.getInstance().getClosestCollision(owner, owner.getX() + nextX, owner.getY() + nextY, owner.getZ(), true, flags);
+
+							float dxy = (Math.abs(nextX) + Math.abs(nextY)) * AIConfig.MAXIMUM_MOVE_SLANT;
+							float cxy = Math.abs(owner.getZ() - loc.z);
+							if (cxy > dxy)
+								continue;
+							if (!GeoService.getInstance().canSee(owner, loc.x, loc.y, owner.getZ()))
+								continue;
+							if (!((owner.getX() + nextX) == loc.x && (owner.getY() + nextY) == loc.y))
+								continue;
+
+							if (AIConfig.CHECK_LINE_POINTS && !owner.getMoveController().checkLinePoint(loc))
+								continue;
+
+							break;
+						}
+						else {
+							loc = new Vector3f(owner.getX() + nextX, owner.getY() + nextY, owner.getZ());
+							break;
+						}
+					}
+					if (i == AIConfig.RANDOM_MAX_TRIES) {
+						owner.getMoveController().moveToHome();
+						return;
+					}
+					if (loc != null) {
+						//npcAI.setSubStateIfNot(AISubState.WALK_RANDOM);
+						//if (!startPathWalking(npcAI, loc.x, loc.y, loc.z)) {
+						owner.getMoveController().moveToPoint(loc.x, loc.y, loc.z);
+						//}
+					}
+				}
+			}
+		}, Rnd.get(AIConfig.MINIMIMUM_DELAY, AIConfig.MAXIMUM_DELAY) * 1000);
+	}
+
+	/**
+	 * @param npcAI
+	 */
+	/*private static void chooseNextRandomPoint(final NpcAI2 npcAI) {
 		final Npc owner = npcAI.getOwner();
 		owner.getMoveController().abortMove();
 		int randomWalkNr = owner.getSpawn().getRandomWalk();
@@ -265,7 +349,7 @@ public class WalkManager {
 				}
 			}
 		}, Rnd.get(AIConfig.MINIMIMUM_DELAY, AIConfig.MAXIMUM_DELAY) * 1000);
-	}
+	}*/
 
 	/**
 	 * @param npcAI

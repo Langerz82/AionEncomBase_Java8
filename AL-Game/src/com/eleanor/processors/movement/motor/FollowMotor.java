@@ -5,6 +5,9 @@ package com.eleanor.processors.movement.motor;
 
 import java.util.concurrent.ScheduledFuture;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.aionemu.gameserver.ai2.AIState;
 import com.aionemu.gameserver.ai2.AISubState;
 import com.aionemu.gameserver.geoEngine.math.Vector3f;
@@ -19,6 +22,7 @@ import com.eleanor.processors.movement.PathfindHelper;
 import com.eleanor.utils.GeomUtil;
 
 public class FollowMotor extends AMovementMotor {
+	private static final Logger log = LoggerFactory.getLogger(FollowMotor.class);
 	private static final int TARGET_REVALIDATE_TIME = 300;
 	private static long pathfindRevalidationTime;
 	public VisibleObject _target;
@@ -71,8 +75,14 @@ public class FollowMotor extends AMovementMotor {
 			}
 			double distance = GeomUtil.getDistance3D(this._lastMovePoint, getTargetPos.x, getTargetPos.y,
 					getTargetPos.z) - Math.max(range, this._owner.getCollision());
-			Vector3f dir = GeomUtil.getDirection3D(this._lastMovePoint, getTargetPos);
-			this._targetPosition = GeomUtil.getNextPoint3D(this._lastMovePoint, dir, (float) distance);
+			Vector3f dir = null;
+			if (this._lastMovePoint == null) {
+				this._targetPosition = null;
+			}
+			else {
+				dir = GeomUtil.getDirection3D(this._lastMovePoint, getTargetPos);
+				this._targetPosition = GeomUtil.getNextPoint3D(this._lastMovePoint, dir, (float) distance);
+			}
 		} else if (pathfindRevalidationTime < System.currentTimeMillis()) {
 			this._targetPosition = null;
 		}

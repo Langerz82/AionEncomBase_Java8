@@ -34,8 +34,8 @@ public class AIConfig {
 
 	@Property(key = "gameserver.ai.oncreate.debug", defaultValue = "false")
 	public static boolean ONCREATE_DEBUG;
-	
-	
+
+
 	/**
 	* Level difference with the creature to be immune to aggro
 	*/
@@ -65,4 +65,35 @@ public class AIConfig {
 	 */
 	@Property(key = "gameserver.npcshouts.enable", defaultValue = "false")
 	public static boolean SHOUTS_ENABLE;
+
+	/**
+	 * RandomWalk Enable Player Distance Threshold check.
+	 */
+	@Property(key = "gameserver.npcmovement.randomwalk.threshold.enabled", defaultValue = "true")
+	public static boolean RANDOMWALK_THRESHOLD;
+
+	/**
+	 * RandomWalk - Player Max Distance.
+	 */
+	@Property(key = "gameserver.npcmovement.randomwalk.threshold.playermaxdistance", defaultValue = "100.0")
+	public static float RANDOMWALK_PLAYERMAXDIST;
+
+	/**
+	 * RandomWalk - Random Max Tries.
+	 */
+	@Property(key = "gameserver.npcmovement.randomwalk.tries.max", defaultValue = "10")
+	public static int RANDOM_MAX_TRIES;
+
+	/**
+	 * Enable check random walk z-points.
+	 */
+	@Property(key = "gameserver.npcmovement.randomwalk.zpoints.check.enabled", defaultValue = "true")
+	public static boolean CHECK_LINE_POINTS;
+
+	/**
+	 * Maximum z-axis slant in random move
+	 */
+	@Property(key = "gameserver.npcmovement.slant.maximum", defaultValue = "0.6")
+	public static float MAXIMUM_MOVE_SLANT;
+
 }

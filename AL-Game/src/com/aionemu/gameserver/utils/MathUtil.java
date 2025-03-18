@@ -30,6 +30,29 @@ import com.aionemu.gameserver.model.geometry.Point3D;
 import com.aionemu.gameserver.model.templates.zone.Point2D;
 
 public class MathUtil {
+	/**
+	 * Returns a point between 2-points, defined by interpolated point 0f > and < 1.0f.
+	 *
+	 * @param p1x, @param p1y, @param p1z
+	 *            first point
+	 * @param p2x, @param p2y, @param p2z
+	 *            second point
+	 * @param t
+	 *            which interpolated point along the hypotenuse as defined between 0f and 1.0f.
+	 *
+	 * @return point between the 2-points.
+	 */
+
+	public static Point3D getPointBetweenLine(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float t)
+	{
+		Point3D point3 = new Point3D();
+		point3.setX((1 - t) * p1x + t * p2x);
+		point3.setY((1 - t) * p1y + t * p2y);
+		point3.setZ((1 - t) * p1z + t * p2z);
+
+		return point3;
+	}
+
 	public static double getDistance(Point2D point1, Point2D point2) {
 		return getDistance(point1.getX(), point1.getY(), point2.getX(), point2.getY());
 	}
