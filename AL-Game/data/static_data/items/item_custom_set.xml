@@ -23,8 +23,8 @@
     <item_custom_set id="17" name="test_set7" custom_enchant_value="5"/>
     <item_custom_set id="18" name="event_wing_set1" custom_enchant_value="3"/>
     <item_custom_set id="19" name="event_wing_set2" custom_enchant_value="10"/>
-    <item_custom_set id="20" name="quest_mission_lv10_phy_set1" custom_enchant_value="10"/>
-    <item_custom_set id="21" name="quest_mission_lv10_mag_set1" custom_enchant_value="10"/>
+    <item_custom_set id="20" name="quest_mission_lv10_phy_set1" custom_enchant_value="0"/>
+    <item_custom_set id="21" name="quest_mission_lv10_mag_set1" custom_enchant_value="0"/>
     <item_custom_set id="22" name="event_wing_set3" custom_enchant_value="5"/>
     <item_custom_set id="23" name="starweapon3_set1" custom_enchant_value="5"/>
 	<item_custom_set id="24" name="jumping_phy_set_65a" custom_enchant_value="15"/>

@@ -42,7 +42,7 @@
                     <!-- Siglet -->
                     <spawn npc_id="799700">
                         <spot x="1547.86" y="1439.6" z="573.03" h="32"/>
-                    </spawn> 
+                    </spawn>
                 </spawn_map>
                 <!-- Pandaemonium -->
                 <spawn_map map_id="120010000">
@@ -58,7 +58,7 @@
                     <spawn npc_id="799701">
                         <spot x="1242.47" y="1425.61" z="208.125" h="100"/>
                     </spawn>
-                </spawn_map>	
+                </spawn_map>
             </spawns>
 		</event>
 		<event name="Doppelgangers" start="2020-01-01T00:00:00+00:00" end="2050-12-31T00:00:00+00:00">
@@ -812,8 +812,8 @@
 					<!-- Edandos [Event Staff] -->
 					<spawn npc_id="831029">
 					    <spot h="46" z="1636.4852" y="2535.6" x="592.4896"/>
-					</spawn> 
-				</spawn_map>	
+					</spawn>
+				</spawn_map>
 				<!-- Katalam -->
 				<spawn_map map_id="600050000">
 				    <!-- Nebrith -->
@@ -2688,8 +2688,8 @@
                         <spot x="1478.0" y="1447.0" z="572.8741" h="68"/>
                     </spawn>
                 </spawn_map>
-                <spawn_map map_id="120010000">          
-                    <spawn npc_id="832893">  
+                <spawn_map map_id="120010000">
+                    <spawn npc_id="832893">
                         <spot x="1313.0" y="1420.0" z="209.09084" h="95"/>
                     </spawn>
                     <spawn npc_id="701965">
@@ -3350,7 +3350,7 @@
 				</spawn_map>
 			</spawns>
 		</event>
-		<event name="Homeward Bound Event" start="2020-01-01T00:00:00+00:00" end="2050-12-31T00:00:00+00:00">
+		<event name="Homeward Bound Event" start="2020-01-01T00:00:00+00:00" end="2020-12-31T00:00:00+00:00">
             <quests>
                 <maintainable>80787;80788;80789;80790;80791;80792;80793;80794</maintainable>
             </quests>
@@ -3573,7 +3573,7 @@
                         <spot x="830.0" y="820.0" z="164.0" h="90"/>
                         <spot x="536.17" y="431.35" z="158.47716" h="90"/>
                         <spot x="793.02" y="467.63" z="143.97687" h="90"/>
-                    </spawn> 
+                    </spawn>
                 </spawn_map>
                 <!-- Levinshor -->
                 <spawn_map map_id="600100000">
@@ -4097,7 +4097,7 @@
 		<!--  Novice Event Inventory lvl 1-45 (Novice's Crystal)-->
         <event name="Novice Event Inventory" start="2019-01-01T00:00:00+00:00" end="2019-12-31T00:00:00+00:00">
             <inventory_drop startlevel="1" interval="20">186000253</inventory_drop>
-        </event> 
+        </event>
 		<event name="Novice Event" start="2019-01-01T00:00:00+00:00" end="2019-12-31T00:00:00+00:00">
 			<spawns>
 			    <!-- Degrans (NPC Normal lvl:60) -->
@@ -4149,8 +4149,8 @@
         </event>
 		<event name="Pumpkin Kings Haunt Inventory" start="2020-10-25T00:00:00+00:00" end="2020-11-22T00:00:00+00:00">
             <inventory_drop startlevel="66" interval="30" endlevel="76" maxCountOfDay="10" cleanTime="9">182007423</inventory_drop>
-        </event> 
-        <event name="Pumpkin Kings Haunt" start="2020-10-25T00:00:00+00:00" end="2020-11-22T00:00:00+00:00">          
+        </event>
+        <event name="Pumpkin Kings Haunt" start="2020-10-25T00:00:00+00:00" end="2020-11-22T00:00:00+00:00">
             <spawns>
                 <spawn_map map_id="110010000"><!-- Sanctum -->
                     <!-- First Candle ||| World_event_halloween_candle_01 -->
