@@ -193,30 +193,33 @@ public class NpcMoveController
                         cachedPathValid = false;
                     }
                     if (!cachedPathValid || cachedPath == null) {
-                        cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
-                        if (cachedPath != null) { //Add a bit of randomness to the last point to prevent entities from stacking directly ontop of eachother.
-                            //TODO: Move to NavService and make sure this random point is on the navmesh!
-                            if (cachedPath.length != 1) {
-                                if (Rnd.nextBoolean()) {
-                                    cachedPath[cachedPath.length - 1][0] += Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
-                                } else {
-                                    cachedPath[cachedPath.length - 1][0] -= Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
-                                }
-                                if (Rnd.nextBoolean()) {
-                                    cachedPath[cachedPath.length - 1][1] += Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
-                                } else {
-                                    cachedPath[cachedPath.length - 1][1] -= Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
-                                }
-                            }
+                        if (GeoDataConfig.GEO_NAV_ENABLE) {
+                          cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
+                          if (cachedPath != null) { //Add a bit of randomness to the last point to prevent entities from stacking directly ontop of eachother.
+                              //TODO: Move to NavService and make sure this random point is on the navmesh!
+                              if (cachedPath.length != 1) {
+                                  if (Rnd.nextBoolean()) {
+                                      cachedPath[cachedPath.length - 1][0] += Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
+                                  } else {
+                                      cachedPath[cachedPath.length - 1][0] -= Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
+                                  }
+                                  if (Rnd.nextBoolean()) {
+                                      cachedPath[cachedPath.length - 1][1] += Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
+                                  } else {
+                                      cachedPath[cachedPath.length - 1][1] -= Rnd.nextDouble() * owner.getObjectTemplate().getBoundRadius().getSide();
+                                  }
+                              }
+                          }
+                          cachedPathValid = true;
                         }
-                        cachedPathValid = true;
                     }
-                    if (cachedPath != null && cachedPath.length > 0) {
+                    //log.info("[NpcMoveController] moveToDestination, cachedPath.length:"+cachedPath.length);
+                    if (cachedPath != null && cachedPath.length > 1) {
                         float[] p1 = cachedPath[0];
                         assert p1.length == 3;
                         moveToLocation(p1[0], p1[1], getTargetZ(owner, p1[0], p1[1], p1[2]), offset);
                     } else {
-                        if (cachedPath != null) cachedPath = null;
+                        cachedPath = null;
                         moveToLocation(pointX, pointY, pointZ, offset);
                     }
                 } else {
@@ -245,16 +248,22 @@ public class NpcMoveController
                 break;
             }
             case HOME: {
-                if ((!cachedPathValid || cachedPath == null) && (returnAttempts<3)) {
-                    cachedPath = NavService.getInstance().navigateToLocation(owner, pointX, pointY, pointZ);
-                    returnAttempts++;
-                    cachedPathValid = true;
+                if (GeoDataConfig.GEO_NAV_ENABLE) {
+                  if ((!cachedPathValid || cachedPath == null) && (returnAttempts<3)) {
+                      cachedPath = NavService.getInstance().navigateToLocation(owner, pointX, pointY, pointZ);
+                      returnAttempts++;
+                      cachedPathValid = true;
+                  }
+                  if ((cachedPath != null) && (cachedPath.length > 1) && (returnAttempts<3)) {
+                      float[] p1 = cachedPath[0];
+                      moveToLocation(p1[0], p1[1], getTargetZ(owner, p1[0], p1[1], p1[2]), offset);
+                  } else{
+                      cachedPath = null;
+                      moveToLocation(pointX, pointY, pointZ, offset);
+                  }
                 }
-                if ((cachedPath != null) && (cachedPath.length > 0) && (returnAttempts<3)) {
-                    float[] p1 = cachedPath[0];
-                    moveToLocation(p1[0], p1[1], getTargetZ(owner, p1[0], p1[1], p1[2]), offset);
-                } else{
-                    moveToLocation(pointX, pointY, pointZ, offset);
+                else {
+                  moveToLocation(pointX, pointY, pointZ, offset);
                 }
             }
         }
@@ -326,7 +335,7 @@ public class NpcMoveController
         }
         if (futureDistPassed == dist
                 && (destination == Destination.TARGET_OBJECT || destination == Destination.HOME)) {
-            if (cachedPath != null && cachedPath.length > 0) {
+            if (cachedPath != null) {
                 float[][] tempCache = new float[cachedPath.length - 1][];
                 if (tempCache.length > 0) {
                     System.arraycopy(cachedPath, 1, tempCache, 0, cachedPath.length - 1);

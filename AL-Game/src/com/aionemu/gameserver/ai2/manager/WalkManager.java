@@ -17,6 +17,10 @@
 package com.aionemu.gameserver.ai2.manager;
 
 import java.util.List;
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.aionemu.commons.utils.Rnd;
 import com.aionemu.gameserver.ai2.AIState;
@@ -33,12 +37,13 @@ import com.aionemu.gameserver.model.templates.walker.WalkerTemplate;
 import com.aionemu.gameserver.utils.MathUtil;
 import com.aionemu.gameserver.utils.ThreadPoolManager;
 import com.aionemu.gameserver.world.geo.GeoService;
+import com.aionemu.gameserver.world.geo.nav.NavService;
 
 /**
  * @author ATracer
  */
 public class WalkManager {
-
+	private static final Logger log = LoggerFactory.getLogger(WalkManager.class);
 	private static final int WALK_RANDOM_RANGE = 5;
 
 	/**
@@ -280,17 +285,48 @@ public class WalkManager {
 							byte flags = (byte) (CollisionIntention.PHYSICAL.getId() | CollisionIntention.DOOR.getId() | CollisionIntention.WALK.getId());
 							loc = GeoService.getInstance().getClosestCollision(owner, owner.getX() + nextX, owner.getY() + nextY, owner.getZ(), true, flags);
 
+							if (owner.isFlying())
+								break;
+
 							float dxy = (Math.abs(nextX) + Math.abs(nextY)) * AIConfig.MAXIMUM_MOVE_SLANT;
 							float cxy = Math.abs(owner.getZ() - loc.z);
 							if (cxy > dxy)
 								continue;
+
 							if (!GeoService.getInstance().canSee(owner, loc.x, loc.y, owner.getZ()))
 								continue;
+
 							if (!((owner.getX() + nextX) == loc.x && (owner.getY() + nextY) == loc.y))
 								continue;
 
 							if (AIConfig.CHECK_LINE_POINTS && !owner.getMoveController().checkLinePoint(loc))
 								continue;
+
+							if (GeoDataConfig.GEO_NAV_ENABLE) {
+								/*
+								// TODO remove temp benchmarking code.
+								int iterations = 100;
+								long startTime = (new Date()).getTime();
+								for (int j = 0; j < iterations; ++j) {
+									float[][] result = NavService.getInstance().navigateToLocation(owner, loc.x, loc.y, loc.z);
+								}
+								long endTime = (new Date()).getTime();
+								long res1 = (endTime-startTime);
+
+								startTime = (new Date()).getTime();
+								for (int j = 0; j < iterations; ++j) {
+									boolean result = NavService.getInstance().canMoveStraightLinePath(owner, loc.x, loc.y, loc.z);
+								}
+								endTime = (new Date()).getTime();
+								long res2 = (endTime-startTime);
+								log.info("[WalkManager] canMoveStraightLinePath time:"+res2+", navigateToLocation time:"+res1);
+								*/
+
+								// Beanchmark tested and this is faster than navigateToLocation in general.
+								boolean result = NavService.getInstance().canMoveStraightLinePath(owner, loc.x, loc.y, loc.z);
+								if (result)
+									continue;
+							}
 
 							break;
 						}

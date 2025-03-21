@@ -32,16 +32,16 @@ import com.aionemu.gameserver.model.gameobjects.Creature;
 /**
  * Similar to {@link com.aionemu.gameserver.world.geo.GeoService GeoService}, this class is the entry point
  * for navigational queries (it's used for pathfinding).
- * 
+ *
  * @author Yon (Aion Reconstruction Project)
  */
 public final class NavService {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(NavService.class);
 	private final NavData navData = NavData.getInstance();
-	
+
 	private NavService() {};
-	
+
 	public void initializeNav() {
 		if (GeoDataConfig.GEO_NAV_ENABLE) {
 			LOG.info("Navigational Data is Enabled.");
@@ -54,7 +54,7 @@ public final class NavService {
 			LOG.info("Navigational Data is Disabled.");
 		}
 	}
-	
+
 	/**
 	 * This method checks if one entity (creature) can pull (forcibly move) another (target) by checking if the
 	 * navmesh is continuous between the creature and the target. This method will immediately return true if the
@@ -66,7 +66,7 @@ public final class NavService {
 	 * It's assumed that the entities can see eachother.
 	 * <p>
 	 * If {@link GeoDataConfig#GEO_NAV_ENABLE} is set to false, this method will immediately return true.
-	 * 
+	 *
 	 * @param creature -- The entity attempting to pull {@code target}.
 	 * @param target -- The target entity that {@code creature} is attempting to pull.
 	 * @return true if the target can be pulled, false otherwise.
@@ -91,7 +91,28 @@ public final class NavService {
 		if (path != null && path.length == 1) return true;
 		return false;
 	}
-	
+
+	public boolean canMoveStraightLinePath(Creature creature, float x2, float y2, float z2) {
+		if (!GeoDataConfig.GEO_NAV_ENABLE) return true;
+		if (creature.isFlying()) return true;
+		int worldId = creature.getWorldId();
+		float x1 = creature.getX(), y1 = creature.getY(), z1 = creature.getZ();
+		NavGeometry tile1 = getNavTile(worldId, x1, y1, z1);
+		if (tile1 == null) {
+			tile1 = getNavTileWithBox(worldId, x1, y1, z1);
+			if (tile1 == null) return false;
+		}
+		NavGeometry tile2 = getNavTile(worldId, x2, y2, z2);
+		if (tile2 == null) {
+			tile2 = getNavTileWithBox(worldId, x2, y2, z2);
+			if (tile2 == null) return false;
+		}
+		//They're flipped around because the path needs to exist from the target (though it doesn't actually matter)
+		float[][] path = attemptStraightLinePath(tile2, tile1, x2, y2, z2, x1, y1, z1);
+		if (path != null && path.length == 1) return true;
+		return false;
+	}
+
 	private float[][] attemptStraightLinePath(NavGeometry tile1, NavGeometry tile2, float x1, float y1, float z1, float x2, float y2, float z2) {
 		//basic checks
 		assert tile1 != null:"NavService#validateStraightLinePath() tile1 is null!";
@@ -163,7 +184,7 @@ public final class NavService {
 		}
 		return null;
 	}
-	
+
 	public float[][] navigateToTarget(Creature pathOwner, Creature target) {
 		//basic checks
 		if (pathOwner == null) return null;
@@ -171,14 +192,14 @@ public final class NavService {
 		if (target == null) return null;
 //		if (target.getLifeStats().isAlreadyDead()) return null;
 		if (pathOwner.getWorldId() != target.getWorldId()) return null;
-		
+
 		int worldId = pathOwner.getWorldId();
 		float x1 = pathOwner.getX(), y1 = pathOwner.getY(), z1 = pathOwner.getZ();
 		float x2 = target.getX(), y2 = target.getY(), z2 = target.getZ();
 		//TO-DO: Use Cached Tile for Creature
 		return navigateFromLocationToLocation(worldId, null, null, x1, y1, z1, x2, y2, z2);
 	}
-	
+
 	public float[][] navigateToLocation(Creature pathOwner, float x, float y, float z) {
 		//basic checks
 		if (pathOwner == null) return null;
@@ -188,7 +209,7 @@ public final class NavService {
 		//TO-DO: Use Cached Tile for Creature
 		return navigateFromLocationToLocation(worldId, null, null, x1, y1, z1, x, y, z);
 	}
-	
+
 	private float[][] navigateFromLocationToLocation(int worldId, NavGeometry tile, NavGeometry tile2, float x1, float y1, float z1, float x2, float y2, float z2) {
 		boolean boxed = false;
 		if (tile == null) {
@@ -231,7 +252,7 @@ public final class NavService {
 		helper.destroy();
 		return funnelPathway(pathway, tile2 != null, x1, y1, z1, x2, y2, z2);
 	}
-	
+
 	private static float[][] funnelPathway(NavPathway[] pathway, boolean includeTargetPoint, float x1, float y1, float z1, float x2, float y2, float z2) {
 		if (pathway == null) return null; //Mob will ignore all obstacles
 		if (pathway.length == 0) return new float[][] {{x1, y1, z1}}; //Mob will not move
@@ -362,12 +383,12 @@ public final class NavService {
 		}
 		return ret.toArray(new float[0][]);
 	}
-	
+
 	private static boolean areEqualPoints(float[] p1, float[] p2) {
 		assert p1.length == 3 && p2.length == 3;
 		return p1[0] == p2[0] && p1[1] == p2[1] && p1[2] == p2[2];
 	}
-	
+
 	private static boolean compareFunnelCross(float crossZ, boolean positive, boolean zeroAllowed) {
 		if (crossZ == 0) return zeroAllowed;
 		if (positive) {
@@ -376,12 +397,12 @@ public final class NavService {
 			return crossZ < 0;
 		}
 	}
-	
+
 	private static float crossZ(float[] vec1, float[] vec2/*, float x1, float y1, float x2, float y2*/) {
 		return ((vec1[0] * vec2[1]) - (vec1[1] * vec2[0]));
 //		return ((x1 * y2) - (y1 * x2));
 	}
-	
+
 	private NavGeometry getNavTile(int worldId, float x, float y, float z) {
 		GeoMap navMap = navData.getNavMap(worldId);
 		if (navMap == null) return null;
@@ -403,7 +424,7 @@ public final class NavService {
 		}
 		return null;
 	}
-	
+
 	private NavGeometry getNavTileWithBox(int worldId, float x, float y, float z) {
 		GeoMap navMap = navData.getNavMap(worldId);
 		if (navMap == null) return null;
@@ -427,16 +448,16 @@ public final class NavService {
 		}
 		return null;
 	}
-	
+
 	static class NavPathway {
 		NavGeometry tile;
 		byte edge; //Values are 0, 1, 2, or 3
-		
+
 		NavPathway(NavGeometry tile, byte edge) {
 			this.tile = tile;
 			this.edge = edge;
 		}
-		
+
 		float[][] getEndpoints() {
 			float[][] ret;
 			switch (edge) {
@@ -446,7 +467,7 @@ public final class NavService {
 			case 1:
 			case 2:
 			case 3:
-				ret = tile.getEndpoints(edge); 
+				ret = tile.getEndpoints(edge);
 				break;
 			default:
 				assert false:"Incorrect NavPathway Creation";
@@ -455,11 +476,11 @@ public final class NavService {
 			return ret;
 		}
 	}
-	
+
 	public static final NavService getInstance() {
 		return SingletonHolder.INSTANCE;
 	}
-	
+
 	private static final class SingletonHolder {
 		protected static final NavService INSTANCE = new NavService();
 	}
