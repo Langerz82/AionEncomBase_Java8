@@ -39,8 +39,8 @@
 	<item_custom_set id="33" name="growup_1st_mag_set_55a" custom_enchant_value="10"/>
 	<item_custom_set id="34" name="growup_2nd_phy_set_68a" custom_enchant_value="10"/>
 	<item_custom_set id="35" name="growup_2nd_mag_set_68a" custom_enchant_value="10"/>
-	<item_custom_set id="36" name="growup_sp_1st_phy_set_30a" custom_enchant_value="10"/>
-	<item_custom_set id="37" name="growup_sp_1st_mag_set_30a" custom_enchant_value="10"/>
+	<item_custom_set id="36" name="growup_sp_1st_phy_set_30a" custom_enchant_value="0"/>
+	<item_custom_set id="37" name="growup_sp_1st_mag_set_30a" custom_enchant_value="0"/>
 	<item_custom_set id="38" name="mystery_live_wi_set_75a" custom_enchant_value="15"/>
 	<item_custom_set id="39" name="mystery_live_el_set_75a" custom_enchant_value="15"/>
 	<item_custom_set id="40" name="mystery_live_ba_set_75a" custom_enchant_value="15"/>
