@@ -214,14 +214,15 @@ public class NpcMoveController
                         }
                     }
                     //log.info("[NpcMoveController] moveToDestination, cachedPath.length:"+cachedPath.length);
-                    if (cachedPath != null && cachedPath.length > 1) {
+                    moveFromPath(cachedPath);
+                    /*if (cachedPath != null && cachedPath.length > 0) {
                         float[] p1 = cachedPath[0];
                         assert p1.length == 3;
                         moveToLocation(p1[0], p1[1], getTargetZ(owner, p1[0], p1[1], p1[2]), offset);
                     } else {
                         cachedPath = null;
                         moveToLocation(pointX, pointY, pointZ, offset);
-                    }
+                    }*/
                 } else {
                     Npc npc = owner;
                     VisibleObject target = owner.getTarget();
@@ -254,13 +255,14 @@ public class NpcMoveController
                       returnAttempts++;
                       cachedPathValid = true;
                   }
-                  if ((cachedPath != null) && (cachedPath.length > 1) && (returnAttempts<3)) {
-                      float[] p1 = cachedPath[0];
-                      moveToLocation(p1[0], p1[1], getTargetZ(owner, p1[0], p1[1], p1[2]), offset);
-                  } else{
-                      cachedPath = null;
-                      moveToLocation(pointX, pointY, pointZ, offset);
-                  }
+                  moveFromPath(cachedPath, (returnAttempts < 3));
+                  /*if ((cachedPath != null && cachedPath.length > 0) && (returnAttempts < 3)) {
+                    float[] p1 = cachedPath[0];
+                    moveToLocation(p1[0], p1[1], getTargetZ(owner, p1[0], p1[1], p1[2]), offset);
+                  } else {
+                    cachedPath = null;
+                    moveToLocation(pointX, pointY, pointZ, offset);
+                  }*/
                 }
                 else {
                   moveToLocation(pointX, pointY, pointZ, offset);
@@ -268,6 +270,23 @@ public class NpcMoveController
             }
         }
         this.updateLastMove();
+    }
+
+    protected void moveFromPath(float[][] cachedPath) {
+      moveFromPath(cachedPath, true);
+    }
+
+    protected void moveFromPath(float[][] cachedPath, boolean condition) {
+      if (cachedPath != null && cachedPath.length > 0 && condition) {
+        this.cachedPath = cachedPath;
+        float[] p1 = cachedPath[0];
+        assert p1.length == 3;
+        moveToLocation(p1[0], p1[1], getTargetZ(owner, p1[0], p1[1], p1[2]), offset);
+        return;
+      } else {
+        this.cachedPath = null;
+        moveToLocation(pointX, pointY, pointZ, offset);
+      }
     }
 
     private float getTargetZ(Npc npc, Creature creature) {
@@ -333,6 +352,13 @@ public class NpcMoveController
         if (futureDistPassed > dist) {
             futureDistPassed = dist;
         }
+
+        // Make sure packet is sent at start of movement.
+        // Partially fixes Creatures dissappearing.
+        // also the z-index interval checking might need to be more frequent.
+        if (futureDistPassed == 0)
+          directionChanged = true;
+
         if (futureDistPassed == dist
                 && (destination == Destination.TARGET_OBJECT || destination == Destination.HOME)) {
             if (cachedPath != null) {
@@ -346,11 +372,12 @@ public class NpcMoveController
                 }
             }
         }
+
         float distFraction = futureDistPassed / dist;
         float newX = (this.targetDestX - ownerX) * distFraction + ownerX;
         float newY = (this.targetDestY - ownerY) * distFraction + ownerY;
         float newZ = (this.targetDestZ - ownerZ) * distFraction + ownerZ;
-        if (ownerX == newX && ownerY == newY && ((Npc)this.owner).getSpawn().getRandomWalk() > 0) {
+        if (ownerX == newX && ownerY == newY && (owner.getAi2().getSubState() == AISubState.WALK_RANDOM)) {
             return;
         }
         if (GeoDataConfig.GEO_NPC_MOVE && GeoDataConfig.GEO_ENABLE && owner.getAi2().getSubState() != AISubState.WALK_PATH && owner.getAi2().getState() != AIState.RETURNING

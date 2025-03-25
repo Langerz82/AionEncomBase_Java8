@@ -324,7 +324,7 @@ public class WalkManager {
 
 								// Beanchmark tested and this is faster than navigateToLocation in general.
 								boolean result = NavService.getInstance().canMoveStraightLinePath(owner, loc.x, loc.y, loc.z);
-								if (result)
+								if (!result)
 									continue;
 							}
 

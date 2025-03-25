@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.aionemu.gameserver.configs.main.SecurityConfig;
+import com.aionemu.gameserver.configs.main.GeoDataConfig;
 import com.aionemu.gameserver.model.SkillElement;
 import com.aionemu.gameserver.model.gameobjects.Creature;
 import com.aionemu.gameserver.model.gameobjects.Item;
@@ -353,7 +354,7 @@ public abstract class CreatureGameStats<T extends Creature> {
 	 */
 	public boolean checkGeoNeedUpdate() {
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - lastGeoUpdate > 600) {
+		if (currentTime - lastGeoUpdate > GeoDataConfig.GEO_UPDATE_INTERVAL) {
 			lastGeoUpdate = currentTime;
 			return true;
 		}
