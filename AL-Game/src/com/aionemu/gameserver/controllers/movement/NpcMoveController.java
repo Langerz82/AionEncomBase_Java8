@@ -356,7 +356,7 @@ public class NpcMoveController
         // Make sure packet is sent at start of movement.
         // Partially fixes Creatures dissappearing.
         // also the z-index interval checking might need to be more frequent.
-        if (futureDistPassed == 0)
+        if (futureDistPassed <= 0f)
           directionChanged = true;
 
         if (futureDistPassed == dist
@@ -601,20 +601,26 @@ public class NpcMoveController
   		Vector3f p1 = new Vector3f(owner.getX(), owner.getY(), owner.getZ());
   		Vector3f p2 = new Vector3f(dest.x, dest.y, dest.z);
   		float dist = (float) MathUtil.getDistance(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-  		int points = (int) Math.ceil(dist);
+  		//int points = (int) Math.ceil(dist);
   		float prevZ = p1.z;
-  		for (int i=1; i < points; ++i)
+      float fi = AIConfig.MOVE_SLANT_INTERVAL;
+      float threshold = AIConfig.MOVE_SLANT_INTERVAL * AIConfig.MAXIMUM_MOVE_SLANT;
+
+      float[] fp1 = p1.toArray(null);
+      float[] fp2 = p2.toArray(null);
+  		while (fi < dist)
   		{
-  			Point3D p3 = MathUtil.getPointBetweenLine(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, (float) i/points);
+  			float[] fp3 = MathUtil.getPointBetweenLine(fp1, fp2, (float) fi/dist);
 
   			if (GeoDataConfig.GEO_ENABLE && GeoDataConfig.GEO_NPC_MOVE) {
-  				float tz = getTargetZ(owner, p3.getX(), p3.getY(), p3.getZ());
+  				float tz = getTargetZ(owner, fp3[0], fp3[1], fp3[2]);
   				float cz = Math.abs(prevZ - tz);
-  				if (cz > (AIConfig.MAXIMUM_MOVE_SLANT)) {
+  				if (cz > threshold) {
   					return false;
   				}
   				prevZ = tz;
   			}
+        fi += AIConfig.MOVE_SLANT_INTERVAL;
   		}
   		return true;
   	}

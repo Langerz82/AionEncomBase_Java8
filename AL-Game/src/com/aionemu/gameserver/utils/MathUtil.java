@@ -43,14 +43,21 @@ public class MathUtil {
 	 * @return point between the 2-points.
 	 */
 
-	public static Point3D getPointBetweenLine(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float t)
-	{
-		Point3D point3 = new Point3D();
-		point3.setX((1 - t) * p1x + t * p2x);
-		point3.setY((1 - t) * p1y + t * p2y);
-		point3.setZ((1 - t) * p1z + t * p2z);
+	public static Point3D getPointBetweenLine(Point3D p1, Point3D p2, float t) {
+		float[] fp3 = getPointBetweenLine(p1.toArray(null), p2.toArray(null), t);
+		return new Point3D(fp3[0], fp3[1], fp3[2]);
+	}
 
-		return point3;
+	public static float[] getPointBetweenLine(float[] p1, float[] p2, float t)
+	{
+		assert p1.length == 3;
+		assert p2.length == 3;
+
+		float[] p3 = new float[3];
+		p3[0] = (1 - t) * p1[0] + t * p2[0];
+		p3[1] = (1 - t) * p1[1] + t * p2[1];
+		p3[2] = (1 - t) * p1[2] + t * p2[2];
+		return p3;
 	}
 
 	public static double getDistance(Point2D point1, Point2D point2) {

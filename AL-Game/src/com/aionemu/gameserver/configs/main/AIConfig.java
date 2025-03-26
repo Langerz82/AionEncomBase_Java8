@@ -96,4 +96,10 @@ public class AIConfig {
 	@Property(key = "gameserver.npcmovement.slant.maximum", defaultValue = "0.6")
 	public static float MAXIMUM_MOVE_SLANT;
 
+	/**
+	 * Interval distance checking along the path.
+	 */
+	@Property(key = "gameserver.npcmovement.slant.interval", defaultValue = "2.0")
+	public static float MOVE_SLANT_INTERVAL;
+
 }

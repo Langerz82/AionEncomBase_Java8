@@ -109,8 +109,7 @@ public final class NavService {
 		}
 		//They're flipped around because the path needs to exist from the target (though it doesn't actually matter)
 		float[][] path = attemptStraightLinePath(tile2, tile1, x2, y2, z2, x1, y1, z1);
-		if (path != null && path.length == 1) return true;
-		return false;
+		return (path != null && path.length == 1);
 	}
 
 	private float[][] attemptStraightLinePath(NavGeometry tile1, NavGeometry tile2, float x1, float y1, float z1, float x2, float y2, float z2) {
