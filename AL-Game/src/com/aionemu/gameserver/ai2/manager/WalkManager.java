@@ -263,7 +263,7 @@ public class WalkManager {
 				}
 
 
-				if (!npcAI.isAnyPlayerNear(AIConfig.RANDOMWALK_PLAYERMAXDIST)) {
+				if (!npcAI.isAnyPlayerNearRandomWalk()) {
 					chooseNextRandomPoint(npcAI);
 					return;
 				}

@@ -36,6 +36,7 @@ import com.aionemu.gameserver.model.gameobjects.player.Player;
 import com.aionemu.gameserver.model.gameobjects.siege.SiegeNpc;
 import com.aionemu.gameserver.model.gameobjects.state.CreatureState;
 import com.aionemu.gameserver.model.templates.world.WorldMapTemplate;
+import com.aionemu.gameserver.utils.MathUtil;
 import com.aionemu.gameserver.utils.Util;
 import com.aionemu.gameserver.world.container.PlayerContainer;
 import com.aionemu.gameserver.world.exceptions.AlreadySpawnedException;
@@ -240,7 +241,7 @@ public class World {
 	/**
 	 * Update position of VisibleObject [used when object is moving on one map
 	 * instance]. Check if active map region changed and do all needed updates.
-	 * 
+	 *
 	 * @param object
 	 * @param newX
 	 * @param newY
@@ -318,7 +319,7 @@ public class World {
 	/**
 	 * Set position of VisibleObject without spawning [object will be invisible]. If
 	 * object is spawned it will be despawned first.
-	 * 
+	 *
 	 * @param object
 	 * @param mapId
 	 * @param x
@@ -360,7 +361,7 @@ public class World {
 	/**
 	 * Creates and return {@link WorldPosition} object, representing position with
 	 * given parameters.
-	 * 
+	 *
 	 * @param mapId
 	 * @param x
 	 * @param y
@@ -455,6 +456,25 @@ public class World {
 		} catch (Exception ex) {
 			log.error("Exception when running visitor on all objects", ex);
 		}
+	}
+
+	public boolean isAnyPlayerNear(VisibleObject owner, float dist)
+	{
+			// This piece of code makes sure a player is in range.
+			for (Player player : getAllPlayers()) {
+				if (owner.getInstanceId() != player.getInstanceId())
+					continue;
+				if (owner.getWorldId() != player.getWorldId())
+					continue;
+				if (owner.getPosition().getMapId() != player.getPosition().getMapId())
+					continue;
+				float tdist = (float) MathUtil.getDistance(owner.getX(), owner.getY(), owner.getZ(),
+					player.getX(), player.getY(), player.getZ());
+				if (tdist > dist) {
+					return true;
+				}
+			}
+			return false;
 	}
 
 	@SuppressWarnings("synthetic-access")

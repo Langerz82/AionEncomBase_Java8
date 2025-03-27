@@ -384,7 +384,7 @@ public class NpcMoveController
                 && owner.getGameStats().checkGeoNeedUpdate()) {
             if (owner.getSpawn().getX() != targetDestX || owner.getSpawn().getY() != targetDestY || owner.getSpawn().getZ() != targetDestZ) {
                 float geoZ = GeoService.getInstance().getZ(owner.getWorldId(), newX, newY, newZ, 0, owner.getInstanceId());
-                if (Math.abs(newZ - geoZ) > 1) {
+                if (Math.abs(newZ - geoZ) > (GeoDataConfig.GEO_UPDATE_INTERVAL / 1000f)) {
                     directionChanged = true;
                 }
                 newZ = geoZ ;
