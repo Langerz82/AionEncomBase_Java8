@@ -462,12 +462,12 @@ public class World {
 	{
 			// This piece of code makes sure a player is in range.
 			for (Player player : getAllPlayers()) {
-				if (owner.getInstanceId() != player.getInstanceId())
-					continue;
+				//if (owner.getInstanceId() != player.getInstanceId())
+					//continue;
 				if (owner.getWorldId() != player.getWorldId())
 					continue;
-				if (owner.getPosition().getMapId() != player.getPosition().getMapId())
-					continue;
+				//if (owner.getPosition().getMapId() != player.getPosition().getMapId())
+					//continue;
 				float tdist = (float) MathUtil.getDistance(owner.getX(), owner.getY(), owner.getZ(),
 					player.getX(), player.getY(), player.getZ());
 				if (tdist > dist) {

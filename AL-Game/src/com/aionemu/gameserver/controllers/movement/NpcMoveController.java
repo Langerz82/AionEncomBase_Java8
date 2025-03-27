@@ -315,7 +315,7 @@ public class NpcMoveController
         float ownerX = ((Npc)this.owner).getX();
         float ownerY = ((Npc)this.owner).getY();
         float ownerZ = ((Npc)this.owner).getZ();
-        boolean bl = directionChanged = targetX != this.targetDestX || targetY != this.targetDestY || targetZ != this.targetDestZ;
+        boolean bl = directionChanged = !(targetX == this.targetDestX && targetY == this.targetDestY && targetZ == this.targetDestZ);
         if (directionChanged) {
             this.heading = (byte)(Math.toDegrees(Math.atan2(targetY - ownerY, targetX - ownerX)) / 3.0);
         }
@@ -362,6 +362,7 @@ public class NpcMoveController
         if (futureDistPassed == dist
                 && (destination == Destination.TARGET_OBJECT || destination == Destination.HOME)) {
             if (cachedPath != null) {
+                directionChanged = true;
                 float[][] tempCache = new float[cachedPath.length - 1][];
                 if (tempCache.length > 0) {
                     System.arraycopy(cachedPath, 1, tempCache, 0, cachedPath.length - 1);
