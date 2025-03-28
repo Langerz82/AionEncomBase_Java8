@@ -315,10 +315,7 @@ public class NpcMoveController
         float ownerX = ((Npc)this.owner).getX();
         float ownerY = ((Npc)this.owner).getY();
         float ownerZ = ((Npc)this.owner).getZ();
-        boolean bl = directionChanged = !(targetX == this.targetDestX && targetY == this.targetDestY && targetZ == this.targetDestZ);
-        if (directionChanged) {
-            this.heading = (byte)(Math.toDegrees(Math.atan2(targetY - ownerY, targetX - ownerX)) / 3.0);
-        }
+
         if (((Npc)this.owner).getAi2().isLogging()) {
             AI2Logger.moveinfo((Creature)this.owner, "OLD targetDestX: " + this.targetDestX + " targetDestY: " + this.targetDestY + " targetDestZ " + this.targetDestZ);
         }
@@ -327,13 +324,17 @@ public class NpcMoveController
             targetY = ((Npc)this.owner).getSpawn().getY();
             targetZ = ((Npc)this.owner).getSpawn().getZ();
         }
+        boolean bl = directionChanged = !(targetX == this.targetDestX && targetY == this.targetDestY && targetZ == this.targetDestZ);
+
         this.targetDestX = targetX;
         this.targetDestY = targetY;
         this.targetDestZ = targetZ;
+
         if (((Npc)this.owner).getAi2().isLogging()) {
             AI2Logger.moveinfo((Creature)this.owner, "ownerX=" + ownerX + " ownerY=" + ownerY + " ownerZ=" + ownerZ);
             AI2Logger.moveinfo((Creature)this.owner, "targetDestX: " + this.targetDestX + " targetDestY: " + this.targetDestY + " targetDestZ " + this.targetDestZ);
         }
+
         float currentSpeed = ((Npc)this.owner).getGameStats().getMovementSpeedFloat();
         float futureDistPassed = currentSpeed * (float)(System.currentTimeMillis() - this.lastMoveUpdate) / 1000.0f;
         float dist = (float)MathUtil.getDistance(ownerX, ownerY, ownerZ, targetX, targetY, targetZ);
@@ -362,7 +363,6 @@ public class NpcMoveController
         if (futureDistPassed == dist
                 && (destination == Destination.TARGET_OBJECT || destination == Destination.HOME)) {
             if (cachedPath != null) {
-                directionChanged = true;
                 float[][] tempCache = new float[cachedPath.length - 1][];
                 if (tempCache.length > 0) {
                     System.arraycopy(cachedPath, 1, tempCache, 0, cachedPath.length - 1);
@@ -394,9 +394,11 @@ public class NpcMoveController
         if (((Npc)this.owner).getAi2().isLogging()) {
             AI2Logger.moveinfo((Creature)this.owner, "newX=" + newX + " newY=" + newY + " newZ=" + newZ + " mask=" + this.movementMask);
         }
+
+        this.heading = (byte)(Math.toDegrees(Math.atan2(this.targetDestY - ownerY, this.targetDestX - ownerX)) / 3.0);
         World.getInstance().updatePosition(this.owner, newX, newY, newZ, this.heading, false);
         byte newMask = this.getMoveMask(directionChanged);
-        if (this.movementMask != newMask) {
+        if (this.movementMask != newMask || directionChanged) {
             if (((Npc)this.owner).getAi2().isLogging()) {
                 AI2Logger.moveinfo((Creature)this.owner, "oldMask=" + this.movementMask + " newMask=" + newMask);
             }
