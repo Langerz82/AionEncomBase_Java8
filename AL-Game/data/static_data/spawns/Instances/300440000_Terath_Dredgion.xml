@@ -221,11 +221,6 @@
 		<spawn npc_id="219262">
 			<spot x="483.29904" y="294.43115" z="402.2051" h="30"/>
 		</spawn>
-                <!-- Captain Anusa
-		<Terath Legion> -->
-		<spawn custom="true" respawn_time="295" npc_id="219264" difficult_id="0">
-           		<spot h="26" z="405.13498" y="903.6746" x="487.65887"/>
-        	</spawn>
 		<!-- Archivist Davorkar
 		<Terath Legion> -->
 		<spawn npc_id="219266">

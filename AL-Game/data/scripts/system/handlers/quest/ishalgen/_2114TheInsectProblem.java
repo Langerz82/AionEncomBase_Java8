@@ -53,7 +53,7 @@ public class _2114TheInsectProblem extends QuestHandler {
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
 		if (targetId == 203533) {
-			if (qs == null || qs.getStatus() == QuestStatus.NONE) {
+		    if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 				switch (env.getDialog()) {
 					case START_DIALOG:
 						return sendQuestDialog(env, 1011);
@@ -61,7 +61,7 @@ public class _2114TheInsectProblem extends QuestHandler {
 						if (QuestService.startQuest(env)) {
 							qs = player.getQuestStateList().getQuestState(questId);
 							qs.setQuestVar(1);
-							this.updateQuestStatus(env);
+							updateQuestStatus(env);
 							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 							return true;
 						}
@@ -69,7 +69,7 @@ public class _2114TheInsectProblem extends QuestHandler {
 						if (QuestService.startQuest(env)) {
 							qs = player.getQuestStateList().getQuestState(questId);
 							qs.setQuestVar(11);
-							this.updateQuestStatus(env);
+							updateQuestStatus(env);
 							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 							return true;
 						}
@@ -79,15 +79,21 @@ public class _2114TheInsectProblem extends QuestHandler {
 				int var = qs.getQuestVarById(0);
 				switch (env.getDialog()) {
 					case USE_OBJECT:
-						if (var == 10)
-							return sendQuestDialog(env, 5);
-						else if (var == 20)
-							return sendQuestDialog(env, 6);
+					if (var == 10)
+						return sendQuestDialog(env, 2034);
+					else if (var == 20)
+						return sendQuestDialog(env, 2375);
+					case SELECT_REWARD: {
+					if (var == 10)
+						return sendQuestDialog(env, 5);
+					else if (var == 20)
+						return sendQuestDialog(env, 6);
+                    }
 					case SELECT_NO_REWARD:
-						if (QuestService.finishQuest(env, var / 10 - 1)) {
-							PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
-							return true;
-						}
+					if (QuestService.finishQuest(env, var / 10 - 1)) {
+						PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
+						return true;
+					}
 				}
 			}
 		}
@@ -101,11 +107,13 @@ public class _2114TheInsectProblem extends QuestHandler {
 		int targetId = 0;
 		if (env.getVisibleObject() instanceof Npc)
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
-		if (qs == null || qs.getStatus() == QuestStatus.START) {
+        if (qs == null || qs.getStatus() != QuestStatus.START) {
+            return false;
+        }
 		int var = qs.getQuestVarById(0);
 		switch (targetId) {
 			case 210734:
-				if (var >= 0 && var < 10) {
+				if (var >= 1 && var < 10) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					updateQuestStatus(env);
 					return true;
@@ -117,7 +125,7 @@ public class _2114TheInsectProblem extends QuestHandler {
 				}
 			case 210380:
 			case 210381:
-				if (var >= 10 && var < 20) {
+				if (var >= 11 && var < 20) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					updateQuestStatus(env);
 					return true;
@@ -126,7 +134,6 @@ public class _2114TheInsectProblem extends QuestHandler {
 					qs.setStatus(QuestStatus.REWARD);
 					updateQuestStatus(env);
 					return true;
-				}
             }
 		}
 		return false;

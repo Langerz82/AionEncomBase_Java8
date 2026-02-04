@@ -8138,7 +8138,7 @@
     <motion name="normalfire2" instant_skill="true" />
   </skill_template>
   <skill_template skill_id="601" name="Body Combo" nameId="4575327" skill_group_name="FI_TripleSlash" delayId="94" stack="SKILL_FI_TRIPLESLASH" lvl="1" skilltype="PHYSICAL" skillsubtype="ATTACK" tslot="NONE" activation="ACTIVE" cooldown="120" duration="0" cancel_rate="10" chain_skill_prob="100" name_desc="FI_TripleSlash_G1">
-    <properties first_target="TARGET" first_target_range="15" target_relation="ENEMY" target_type="ONLYONE" awr="false" />
+    <properties first_target="TARGET" first_target_range="15" target_relation="ENEMY" target_type="ONLYONE" awr="true" />
     <startconditions>
       <weapon weapon="SWORD_2H DAGGER_1H MACE_1H POLEARM_2H STAFF_2H SWORD_1H" />
       <chain category="W_CHAINB_2TH_1" precategory="W_CHAINB_1TH_1" time="3000" selfcount="2" />
@@ -8156,7 +8156,7 @@
     <motion name="tripleslash" />
   </skill_template>
   <skill_template skill_id="602" name="Body Combo" nameId="4575327" skill_group_name="FI_TripleSlash" delayId="94" stack="SKILL_FI_TRIPLESLASH" lvl="2" skilltype="PHYSICAL" skillsubtype="ATTACK" tslot="NONE" activation="ACTIVE" cooldown="120" duration="0" cancel_rate="10" chain_skill_prob="100" name_desc="FI_TripleSlash_G2">
-    <properties first_target="TARGET" first_target_range="15" target_relation="ENEMY" target_type="ONLYONE" awr="false" />
+    <properties first_target="TARGET" first_target_range="15" target_relation="ENEMY" target_type="ONLYONE" awr="true" />
     <startconditions>
       <weapon weapon="SWORD_2H DAGGER_1H MACE_1H POLEARM_2H STAFF_2H SWORD_1H" />
       <chain category="W_CHAINB_2TH_1" precategory="W_CHAINB_1TH_1" time="3000" selfcount="2" />
@@ -8174,10 +8174,10 @@
     <motion name="tripleslash" />
   </skill_template>
   <skill_template skill_id="603" name="Body Combo" nameId="4575327" skill_group_name="FI_TripleSlash" delayId="94" stack="SKILL_FI_TRIPLESLASH" lvl="3" skilltype="PHYSICAL" skillsubtype="ATTACK" tslot="NONE" activation="ACTIVE" cooldown="120" duration="0" cancel_rate="10" chain_skill_prob="100" name_desc="FI_TripleSlash_G3">
-    <properties first_target="TARGET" first_target_range="15" target_relation="ENEMY" target_type="ONLYONE" awr="false" />
+    <properties first_target="TARGET" first_target_range="15" target_relation="ENEMY" target_type="ONLYONE" awr="true" />
     <startconditions>
       <weapon weapon="SWORD_2H DAGGER_1H MACE_1H POLEARM_2H STAFF_2H SWORD_1H" />
-      <chain category="W_CHAINB_2TH_1" precategory="W_CHAINB_1TH_1" time="2000" selfcount="2" />
+      <chain category="W_CHAINB_2TH_1" precategory="W_CHAINB_1TH_1" time="3000" selfcount="2" />
     </startconditions>
     <useconditions>
       <idianchargeweapon />
@@ -195191,11 +195191,7 @@
   </skill_template>
   <skill_template skill_id="20048" name="Board Antiaircraft Gun" nameId="597251" delayId="10" stack="ARENA_PVP01_S2_POLYMORPH01" lvl="1" skilltype="MAGICAL" skillsubtype="BUFF" tslot="BUFF" dispel_category="EXTRA" req_dispel_level="2" activation="ACTIVE" cooldown="0" duration="0" name_desc="Arena_pvp01_S2_Polymorph01_46">
     <properties first_target="TARGET" first_target_range="15" target_relation="ALL" target_type="ONLYONE" target_maxcount="1" />
-    <startconditions>
-      <weapon weapon="SWORD_2H BOOK_2H BOW DAGGER_1H MACE_1H ORB_2H POLEARM_2H STAFF_2H SWORD_1H GUN_1H CANNON_2H HARP_2H KEYBLADE_2H" />
-    </startconditions>
     <useconditions>
-      <idianchargeweapon />
       <playermove allow="false" />
     </useconditions>
     <effects>
@@ -195211,11 +195207,7 @@
   </skill_template>
   <skill_template skill_id="20049" name="Board Antiaircraft Gun" nameId="597257" delayId="10" stack="ARENA_PVP01_S2_POLYMORPH01" lvl="1" skilltype="MAGICAL" skillsubtype="BUFF" tslot="BUFF" dispel_category="EXTRA" req_dispel_level="2" activation="ACTIVE" cooldown="0" duration="0" name_desc="Arena_pvp01_S2_Polymorph01_51">
     <properties first_target="TARGET" first_target_range="15" target_relation="ALL" target_type="ONLYONE" target_maxcount="1" />
-    <startconditions>
-      <weapon weapon="SWORD_2H BOOK_2H BOW DAGGER_1H MACE_1H ORB_2H POLEARM_2H STAFF_2H SWORD_1H GUN_1H CANNON_2H HARP_2H KEYBLADE_2H" />
-    </startconditions>
     <useconditions>
-      <idianchargeweapon />
       <playermove allow="false" />
     </useconditions>
     <effects>
@@ -195231,11 +195223,7 @@
   </skill_template>
   <skill_template skill_id="20050" name="Board Antiaircraft Gun" nameId="597263" delayId="10" stack="ARENA_PVP01_S2_POLYMORPH01" lvl="1" skilltype="MAGICAL" skillsubtype="BUFF" tslot="BUFF" dispel_category="EXTRA" req_dispel_level="2" activation="ACTIVE" cooldown="0" duration="0" name_desc="Arena_pvp01_S2_Polymorph01_56">
     <properties first_target="TARGET" first_target_range="15" target_relation="ALL" target_type="ONLYONE" target_maxcount="1" />
-    <startconditions>
-      <weapon weapon="SWORD_2H BOOK_2H BOW DAGGER_1H MACE_1H ORB_2H POLEARM_2H STAFF_2H SWORD_1H GUN_1H CANNON_2H HARP_2H KEYBLADE_2H" />
-    </startconditions>
     <useconditions>
-      <idianchargeweapon />
       <playermove allow="false" />
     </useconditions>
     <effects>
@@ -200641,9 +200629,6 @@
       <target value="PC" />
       <weapon weapon="SWORD_2H BOOK_2H BOW DAGGER_1H MACE_1H ORB_2H POLEARM_2H STAFF_2H SWORD_1H GUN_1H CANNON_2H HARP_2H KEYBLADE_2H" />
     </startconditions>
-    <useconditions>
-      <idianchargeweapon />
-    </useconditions>
     <effects>
       <boostskillcastingtime duration2="40000" effectid="173" e="1" basiclvl="60" noresist="true">
         <change stat="BOOST_CASTING_TIME" func="PERCENT" value="100" />
@@ -206187,7 +206172,6 @@
   <skill_template skill_id="21065" name="Board Antiaircraft Gun" nameId="4563557" stack="SKILL_PO_LIGHT_AAGUN_VRITRA_POLYMORPH" lvl="1" skilltype="MAGICAL" skillsubtype="BUFF" tslot="BUFF" dispel_category="EXTRA" req_dispel_level="2" activation="ACTIVE" cooldown="0" duration="0" name_desc="PO_Light_AAGun_Vritra_Polymorph_G1">
     <properties first_target="TARGET" first_target_range="15" target_relation="ALL" target_type="ONLYONE" target_maxcount="1" />
     <useconditions>
-      <idianchargeweapon />
       <playermove allow="false" />
     </useconditions>
     <effects>
@@ -210288,15 +210272,11 @@
   </skill_template>
   <skill_template skill_id="21354" name="Board Antiaircraft Gun" nameId="4567001" delayId="10" stack="ARENA_PVP01_S2_POLYMORPH01" lvl="1" skilltype="MAGICAL" skillsubtype="BUFF" tslot="BUFF" dispel_category="EXTRA" req_dispel_level="2" activation="ACTIVE" cooldown="0" duration="0" name_desc="Arena_pvp01_S2_Polymorph01_61">
     <properties first_target="TARGET" first_target_range="15" target_relation="ALL" target_type="ONLYONE" target_maxcount="1" />
-    <startconditions>
-      <weapon weapon="SWORD_2H BOOK_2H BOW DAGGER_1H MACE_1H ORB_2H POLEARM_2H STAFF_2H SWORD_1H GUN_1H CANNON_2H HARP_2H KEYBLADE_2H" />
-    </startconditions>
     <useconditions>
-      <idianchargeweapon />
       <playermove allow="false" />
     </useconditions>
     <effects>
-      <polymorph model="218805" type="FORM1" panelid="36" duration2="30000" effectid="1075" e="1" noresist="true" hoptype="SKILLLV" hopb="60" hopa="60" />
+      <polymorph model="218805" type="FORM1" panelid="36" duration2="30000" effectid="10200482" e="1" noresist="true" hoptype="SKILLLV" hopb="60" hopa="60" />
       <statup duration2="30000" effectid="10200482" e="2" noresist="true" preeffect="1" hoptype="SKILLLV" hopb="60" hopa="60">
         <change stat="ABNORMAL_RESISTANCE_ALL" func="ADD" value="10000" />
         <change stat="MAGICAL_RESIST" func="ADD" value="10000" />
@@ -210308,15 +210288,11 @@
   </skill_template>
   <skill_template skill_id="21355" name="Board Antiaircraft Gun" nameId="4567001" delayId="10" stack="ARENA_PVP01_S2_POLYMORPH01_61" lvl="1" skilltype="MAGICAL" skillsubtype="BUFF" tslot="BUFF" dispel_category="EXTRA" req_dispel_level="2" activation="ACTIVE" cooldown="0" duration="0" name_desc="Arena_pvp01_S2_Polymorph01_65">
     <properties first_target="TARGET" first_target_range="15" target_relation="ALL" target_type="ONLYONE" target_maxcount="1" />
-    <startconditions>
-      <weapon weapon="SWORD_2H BOOK_2H BOW DAGGER_1H MACE_1H ORB_2H POLEARM_2H STAFF_2H SWORD_1H GUN_1H CANNON_2H HARP_2H KEYBLADE_2H" />
-    </startconditions>
     <useconditions>
-      <idianchargeweapon />
       <playermove allow="false" />
     </useconditions>
     <effects>
-      <polymorph model="218805" type="FORM1" panelid="37" duration2="30000" effectid="1075" e="1" noresist="true" hoptype="SKILLLV" hopb="60" hopa="60" />
+      <polymorph model="218805" type="FORM1" panelid="37" duration2="30000" effectid="10200482" e="1" noresist="true" hoptype="SKILLLV" hopb="60" hopa="60" />
       <statup duration2="30000" effectid="10200482" e="2" noresist="true" preeffect="1" hoptype="SKILLLV" hopb="60" hopa="60">
         <change stat="ABNORMAL_RESISTANCE_ALL" func="ADD" value="10000" />
         <change stat="MAGICAL_RESIST" func="ADD" value="10000" />
@@ -212551,7 +212527,7 @@
       <playermove allow="false" />
     </useconditions>
     <effects>
-      <polymorph model="284867" type="FORM1" panelid="51" duration2="3600000" effectid="10214951" e="1" basiclvl="255" noresist="true" hoptype="SKILLLV" hopb="60" />
+      <polymorph model="284867" type="FORM1" panelid="51" duration2="3600000" effectid="1075" e="1" basiclvl="255" noresist="true" hoptype="SKILLLV" hopb="60" />
       <statup duration2="3600000" e="2" noresist="true" preeffect="1" hoptype="SKILLLV" hopb="60" hopa="60">
         <change stat="MAXHP" func="ADD" value="200000" />
         <change stat="ABNORMAL_RESISTANCE_ALL" func="ADD" value="10000" />

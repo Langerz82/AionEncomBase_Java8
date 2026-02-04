@@ -80052,6 +80052,35 @@
 			<drop item_id="102100294" chance="1.00" min_amount="1" max_amount="1" no_reduce="false" eachmember="false" name="Reaper's Cipher-Blade"/>
 		</drop_group>
 	</npc_drop>
+	<!-- Golden Treasure Box -->
+	<npc_drop npc_id="701481">
+		<drop_group name="COMMON_JUNK" use_category="false" race="PC_ALL">
+			<drop item_id="186000053" chance="15" min_amount="1" max_amount="3" no_reduce="false" eachmember="false" name="Ancient Crown"/>
+			<drop item_id="186000057" chance="15" min_amount="1" max_amount="3" no_reduce="false" eachmember="false" name="Ancient Goblet"/>
+			<drop item_id="186000065" chance="15" min_amount="1" max_amount="3" no_reduce="false" eachmember="false" name="Ancient Icon"/>
+			<drop item_id="186000061" chance="15" min_amount="1" max_amount="3" no_reduce="false" eachmember="false" name="Ancient Seal"/>
+			<drop item_id="152014016" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Firm Balaur Horn"/>
+			<drop item_id="152014017" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Firm Balaur Scale"/>
+			<drop item_id="152014018" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Firm Balaur Skin"/>
+			<drop item_id="186000052" chance="15" min_amount="1" max_amount="2" no_reduce="false" eachmember="false" name="Greater Ancient Crown"/>
+			<drop item_id="186000056" chance="15" min_amount="1" max_amount="2" no_reduce="false" eachmember="false" name="Greater Ancient Goblet"/>
+			<drop item_id="186000064" chance="15" min_amount="1" max_amount="2" no_reduce="false" eachmember="false" name="Greater Ancient Icon"/>
+			<drop item_id="186000060" chance="15" min_amount="1" max_amount="2" no_reduce="false" eachmember="false" name="Greater Ancient Seal"/>
+			<drop item_id="186000199" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Legion Coin"/>
+			<drop item_id="186000054" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Lesser Ancient Crown"/>
+			<drop item_id="186000058" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Lesser Ancient Goblet"/>
+			<drop item_id="186000066" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Lesser Ancient Icon"/>
+			<drop item_id="186000062" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Lesser Ancient Seal"/>
+			<drop item_id="186000051" chance="15" min_amount="1" max_amount="1" no_reduce="false" eachmember="false" name="Major Ancient Crown"/>
+			<drop item_id="186000055" chance="15" min_amount="1" max_amount="1" no_reduce="false" eachmember="false" name="Major Ancient Goblet"/>
+			<drop item_id="186000063" chance="15" min_amount="1" max_amount="1" no_reduce="false" eachmember="false" name="Major Ancient Icon"/>
+			<drop item_id="186000059" chance="15" min_amount="1" max_amount="1" no_reduce="false" eachmember="false" name="Major Ancient Seal"/>
+			<drop item_id="186000469" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Petra Medal"/>
+			<drop item_id="152013034" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Urge of Pleasure"/>
+			<drop item_id="152013031" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Urge of Terror"/>
+			<drop item_id="152013028" chance="15" min_amount="1" max_amount="5" no_reduce="false" eachmember="false" name="Urge of Wrath"/>
+		</drop_group>
+	</npc_drop>
 	<!-- Ruins Kalgolem -->
 	<npc_drop npc_id="883276">
 		<drop_group name="ARMOR_COMMON" use_category="true" race="PC_ALL">
@@ -84250,6 +84279,231 @@
 		<drop_group name="COMMON_UNIQUE" use_category="true" race="PC_ALL">
 			<drop item_id="169405424" chance="1.26" min_amount="1" max_amount="1" no_reduce="false" eachmember="false" name="Spirit Stone of Eternity"/>
 			<drop item_id="188055759" chance="3.90" min_amount="1" max_amount="1" no_reduce="false" eachmember="false" name="Cruel Slayer's +4 Manastone Bundle"/>
+		</drop_group>
+	</npc_drop>
+	<!-- Beritra Invasion Boss Drops -->
+	<npc_drop npc_id="234588">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234589">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234590">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234591">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234592">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234593">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234594">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234595">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234596">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234597">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234598">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234599">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234600">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234601">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234602">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234603">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234604">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234605">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234606">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234607">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234608">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234609">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234610">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234611">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234612">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234613">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234614">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
+		</drop_group>
+	</npc_drop>
+	<npc_drop npc_id="234615">
+		<drop_group name="BERITRA_INVASION_REWARD" use_category="true" race="PC_ALL">
+			<drop item_id="182215515" chance="100" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Grand Invasion Orb"/>
+			<drop item_id="188053175" chance="60" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 2 Grand Invasion Reward Box"/>
+			<drop item_id="188053176" chance="40" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 1 Grand Invasion Reward Box"/>
+			<drop item_id="188053179" chance="30" min_amount="1" max_amount="1" no_reduce="false" eachmember="true" name="Level 3 Grand Invasion Reward Box"/>
 		</drop_group>
 	</npc_drop>
 </npc_drops>

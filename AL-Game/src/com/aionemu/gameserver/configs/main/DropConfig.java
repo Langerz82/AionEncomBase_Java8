@@ -41,4 +41,7 @@ public class DropConfig {
 	@Property(key = "gameserver.drop.rate.unique", defaultValue = "0.1")
 	public static float DROP_RATE_UNIQUE;
 
+	// 在DropConfig类中添加一个新的配置项 | Add a new configuration item in DropConfig class
+	@Property(key = "gameserver.drop.max.global.drops.per.npc", defaultValue = "10")
+	public static int MAX_GLOBAL_DROPS_PER_NPC;
 }

@@ -70,6 +70,7 @@ import com.aionemu.gameserver.services.player.GrowthEnergy;
 import com.aionemu.gameserver.skillengine.model.SkillTemplate;
 import com.aionemu.gameserver.utils.MathUtil;
 import com.aionemu.gameserver.utils.PacketSendUtility;
+import com.aionemu.gameserver.utils.ThreadPoolManager;
 import com.aionemu.gameserver.utils.stats.StatFunctions;
 import com.aionemu.gameserver.world.World;
 import com.aionemu.gameserver.world.knownlist.Visitor;
@@ -91,14 +92,31 @@ public class NpcController extends CreatureController<Npc> {
 	public void see(VisibleObject object) {
 		super.see(object);
 		Npc owner = getOwner();
+		
 		if (object instanceof Creature) {
 			owner.getAi2().onCreatureEvent(AIEventType.CREATURE_SEE, (Creature) object);
 		}
+		
 		if (object instanceof Player) {
-			// TODO see player ai event
+			Player player = (Player) object;
+			
 			if (owner.getLifeStats().isAlreadyDead()) {
-				DropService.getInstance().see((Player) object, owner);
+				if (!owner.isInState(CreatureState.DEAD) && !owner.isInState(CreatureState.FLOATING_CORPSE)) {
+					owner.setState(CreatureState.DEAD);
+				}
+				
+				DropService.getInstance().see(player, owner);
+				
+				ThreadPoolManager.getInstance().schedule(new Runnable() {
+					@Override
+					public void run() {
+						if (owner.isSpawned() && owner.getLifeStats().isAlreadyDead()) {
+							PacketSendUtility.sendPacket(player, new SM_EMOTION(owner, EmotionType.DIE, 0, 0));
+						}
+					}
+				}, 100);
 			}
+			// TODO see player ai event
 		} else if (object instanceof Summon) {
 			// TODO see summon ai event
 		}
@@ -115,10 +133,11 @@ public class NpcController extends CreatureController<Npc> {
 		} else {
 			owner.setState(CreatureState.NPC_IDLE);
 		}
+		
 		owner.getLifeStats().setCurrentHpPercent(100);
 		owner.getLifeStats().setCurrentMpPercent(100);
 		owner.getAi2().onGeneralEvent(AIEventType.RESPAWNED);
-
+		
 		if (owner.getSpawn().canFly()) {
 			owner.setState(CreatureState.FLYING);
 		}
@@ -126,6 +145,7 @@ public class NpcController extends CreatureController<Npc> {
 		if (owner.getSpawn().getState() != 0) {
 			owner.setState(owner.getSpawn().getState());
 		}
+		
 	}
 
 	@Override
@@ -151,8 +171,7 @@ public class NpcController extends CreatureController<Npc> {
 				@Override
 				public void visit(Player players) {
 					// "Player Name" has killed "Named Monster"
-					PacketSendUtility.sendPacket(players,
-							new SM_SYSTEM_MESSAGE(1400021, player.getName(), new DescriptionId(npcNameId * 2 + 1)));
+					PacketSendUtility.sendPacket(players, new SM_SYSTEM_MESSAGE(1400021, player.getName(), new DescriptionId(npcNameId * 2 + 1)));
 				}
 			});
 		}
@@ -161,12 +180,18 @@ public class NpcController extends CreatureController<Npc> {
 	@Override
 	public void onDie(Creature lastAttacker) {
 		Npc owner = getOwner();
+		
+		owner.unsetState(CreatureState.ACTIVE);
+		owner.unsetState(CreatureState.FLYING);
+		owner.unsetState(CreatureState.GLIDING);
+		owner.setState(CreatureState.DEAD);
+		
 		if (owner.getSpawn().hasPool()) {
 			owner.getSpawn().setUse(false);
 		}
 
-		PacketSendUtility.broadcastPacket(owner,
-				new SM_EMOTION(owner, EmotionType.DIE, 0, owner.equals(lastAttacker) ? 0 : lastAttacker.getObjectId()));
+		PacketSendUtility.broadcastPacket(owner, new SM_EMOTION(owner, EmotionType.DIE, 0, 
+			owner.equals(lastAttacker) ? 0 : lastAttacker.getObjectId()));
 
 		try {
 			if (owner.getAi2().poll(AIQuestion.SHOULD_REWARD)) {
@@ -174,12 +199,11 @@ public class NpcController extends CreatureController<Npc> {
 			}
 			owner.getPosition().getWorldMapInstance().getInstanceHandler().onDie(owner);
 			owner.getAi2().onGeneralEvent(AIEventType.DIED);
-		} finally { // always make sure npc is schedulled to respawn
+		} finally { // always make sure npc is scheduled to respawn
 			if (owner.getAi2().poll(AIQuestion.SHOULD_DECAY)) {
 				addTask(TaskId.DECAY, RespawnService.scheduleDecayTask(owner));
 			}
-			if (owner.getAi2().poll(AIQuestion.SHOULD_RESPAWN) && !owner.isDeleteDelayed()
-					&& !SiegeService.getInstance().isSiegeNpcInActiveSiege(owner)) {
+			if (owner.getAi2().poll(AIQuestion.SHOULD_RESPAWN) && !owner.isDeleteDelayed() && !SiegeService.getInstance().isSiegeNpcInActiveSiege(owner)) {
 				Future<?> respawnTask = scheduleRespawn();
 				if (respawnTask != null) {
 					addTask(TaskId.RESPAWN, respawnTask);
@@ -227,8 +251,7 @@ public class NpcController extends CreatureController<Npc> {
 						for (String worldIds : CustomConfig.TOLL_PVE_WORLDID.split(",")) {
 							if (player.getWorldId() == Integer.parseInt(worldIds)) {
 								InGameShopEn.getInstance().addToll(player, CustomConfig.TOLL_PVE_QUANTITY);
-								PacketSendUtility.sendMessage(player,
-										"You have received " + CustomConfig.TOLL_PVE_QUANTITY + " tolls from PvE!");
+								PacketSendUtility.sendMessage(player, "You have received " + CustomConfig.TOLL_PVE_QUANTITY + " tolls from PvE!");
 							}
 						}
 
@@ -245,11 +268,9 @@ public class NpcController extends CreatureController<Npc> {
 				continue;
 			}
 			if (attacker instanceof TemporaryPlayerTeam<?>) {
-				PlayerTeamDistributionService.doReward((TemporaryPlayerTeam<?>) attacker, percentage, getOwner(),
-						winner);
+				PlayerTeamDistributionService.doReward((TemporaryPlayerTeam<?>) attacker, percentage, getOwner(), winner);
 			} else if (attacker instanceof Player && ((Player) attacker).isInGroup2()) {
-				PlayerTeamDistributionService.doReward(((Player) attacker).getPlayerGroup2(), percentage, getOwner(),
-						winner);
+				PlayerTeamDistributionService.doReward(((Player) attacker).getPlayerGroup2(), percentage, getOwner(), winner);
 			} else if (attacker instanceof Player) {
 				Player player = (Player) attacker;
 				if (!player.getLifeStats().isAlreadyDead()) {
@@ -274,8 +295,7 @@ public class NpcController extends CreatureController<Npc> {
 					case 600090000: // Kaldor.
 					case 600100000: // Levinshor.
 					default:
-						player.getCommonData().addExp(rewardXp, RewardType.HUNTING,
-								this.getOwner().getObjectTemplate().getNameId());
+						player.getCommonData().addExp(rewardXp, RewardType.HUNTING, this.getOwner().getObjectTemplate().getNameId());
 						break;
 					}
 					player.getCommonData().addDp(rewardDp);
@@ -397,15 +417,6 @@ public class NpcController extends CreatureController<Npc> {
 						}
 						player.getInventory().increaseKinah(kinahCount);
 					}
-					// Reward InGameShop.
-					switch (player.getWorldId()) {
-					// Idian Depths.
-					case 210090000:
-					case 220100000:
-						InGameShopEn.getInstance().addToll(player, (long) (0 * player.getRates().getTollRewardRate()));
-						PacketSendUtility.sendSys1Message(player, "\uE083", "Kamu Jangan Ngepet ya");
-						break;
-					}
 					// Berdin's Star.
 					if (getOwner().getLevel() >= 10) {
 						player.getCommonData().addBerdinStar(1575000); // 0.14%
@@ -443,16 +454,9 @@ public class NpcController extends CreatureController<Npc> {
 	}
 
 	@Override
-	public void onDialogSelect(int dialogId, final Player player, int questId, int extendedRewardIndex, int unk) {// TODO
-																													// unk
-																													// need
-																													// to
-																													// be
-																													// figure
-																													// out
+	public void onDialogSelect(int dialogId, final Player player, int questId, int extendedRewardIndex, int unk) {// TODO unk need to be figure out
 		QuestEnv env = new QuestEnv(getOwner(), player, questId, dialogId);
-		if (!MathUtil.isInRange(getOwner(), player, getOwner().getObjectTemplate().getTalkDistance() + 2)
-				&& !QuestEngine.getInstance().onDialog(env)) {
+		if (!MathUtil.isInRange(getOwner(), player, getOwner().getObjectTemplate().getTalkDistance() + 2) && !QuestEngine.getInstance().onDialog(env)) {
 			return;
 		}
 		if (!getOwner().getAi2().onDialogSelect(player, dialogId, questId, extendedRewardIndex)) {
@@ -520,17 +524,14 @@ public class NpcController extends CreatureController<Npc> {
 			List<Player> players = new ArrayList<Player>();
 			if (aggro.getAttacker() instanceof Player) {
 				Player player = (Player) aggro.getAttacker();
-				if (MathUtil.isIn3dRange(player, getOwner(), GroupConfig.GROUP_MAX_DISTANCE)
-						&& !player.getLifeStats().isAlreadyDead()) {
-					int apPlayerReward = Math
-							.round(StatFunctions.calculatePvEApGained(player, getOwner()) * percentage);
+				if (MathUtil.isIn3dRange(player, getOwner(), GroupConfig.GROUP_MAX_DISTANCE) && !player.getLifeStats().isAlreadyDead()) {
+					int apPlayerReward = Math.round(StatFunctions.calculatePvEApGained(player, getOwner()) * percentage);
 					AbyssPointsService.addAp(player, getOwner(), apPlayerReward);
 				}
 			} else if (aggro.getAttacker() instanceof PlayerGroup) {
 				PlayerGroup group = (PlayerGroup) aggro.getAttacker();
 				for (Player member : group.getMembers()) {
-					if (MathUtil.isIn3dRange(member, getOwner(), GroupConfig.GROUP_MAX_DISTANCE)
-							&& !member.getLifeStats().isAlreadyDead()) {
+					if (MathUtil.isIn3dRange(member, getOwner(), GroupConfig.GROUP_MAX_DISTANCE) && !member.getLifeStats().isAlreadyDead()) {
 						players.add(member);
 					}
 				}
@@ -549,8 +550,7 @@ public class NpcController extends CreatureController<Npc> {
 				PlayerAlliance alliance = (PlayerAlliance) aggro.getAttacker();
 				players = new ArrayList<Player>();
 				for (Player member : alliance.getMembers()) {
-					if (MathUtil.isIn3dRange(member, getOwner(), GroupConfig.GROUP_MAX_DISTANCE)
-							&& !member.getLifeStats().isAlreadyDead()) {
+					if (MathUtil.isIn3dRange(member, getOwner(), GroupConfig.GROUP_MAX_DISTANCE) && !member.getLifeStats().isAlreadyDead()) {
 						players.add(member);
 					}
 				}

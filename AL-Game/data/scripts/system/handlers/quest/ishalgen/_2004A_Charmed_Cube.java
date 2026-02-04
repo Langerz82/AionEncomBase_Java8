@@ -25,11 +25,10 @@ import com.aionemu.gameserver.services.QuestService;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _2004A_Charmed_Cube extends QuestHandler
-{
+public class _2004A_Charmed_Cube extends QuestHandler {
+
 	private final static int questId = 2004;
 	private int[] mobs = {210402, 210403};
-
 	public _2004A_Charmed_Cube() {
 		super(questId);
 	}
@@ -78,12 +77,9 @@ public class _2004A_Charmed_Cube extends QuestHandler
 						} case STEP_TO_1: {
 							return defaultCloseDialog(env, 0, 1);
 						} case STEP_TO_2: {
-							giveQuestItem(env, 182203005, 1);
-							return sendQuestSelectionDialog(env);
+				            return closeDialogWindow(env);
 						} case CHECK_COLLECTED_ITEMS: {
 							return checkQuestItems(env, 1, 2, false, 1438, 1353);
-						} case FINISH_DIALOG: {
-							return sendQuestSelectionDialog(env);
 						}
 					}
 					break;

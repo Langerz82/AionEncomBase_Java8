@@ -38,10 +38,7 @@ import com.aionemu.gameserver.model.instance.instancereward.InstanceReward;
 import com.aionemu.gameserver.model.instance.playerreward.DredgionPlayerReward;
 import com.aionemu.gameserver.model.instance.playerreward.InstancePlayerReward;
 import com.aionemu.gameserver.model.team2.group.PlayerGroupService;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_DIE;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_EMOTION;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_INSTANCE_SCORE;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_SYSTEM_MESSAGE;
+import com.aionemu.gameserver.network.aion.serverpackets.*;
 import com.aionemu.gameserver.questEngine.QuestEngine;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.services.AutoGroupService;
@@ -64,9 +61,10 @@ import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/****/
-/** Author (Encom)
-/****/
+/**
+ * Author (Encom)
+ * @rework MATTY
+**/
 
 @InstanceID(300440000)
 public class TerathDredgionInstance extends GeneralInstanceHandler
@@ -366,11 +364,13 @@ public class TerathDredgionInstance extends GeneralInstanceHandler
 				despawnNpc(npc);
 				//The Portside Defense Shield has been generated in Ready Room 1.
 				sendMsgByRace(1400226, Race.PC_ALL, 0);
+				spawn(730566, 448.39151f, 493.64182f, 394.13174f, (byte) 0, 12);  // spawn barier
 			break;
 			case 730573: //Starboard Defense Shield Generator.
 				despawnNpc(npc);
 				//The Starboard Defense Shield has been generated in Ready Room 2.
 				sendMsgByRace(1400227, Race.PC_ALL, 0);
+				spawn(730567, 520.87555f, 493.40115f, 394.43292f, (byte) 0, 133);  // spawn barier
 			break;
 		   /**
 			* The Bulkhead:
@@ -512,17 +512,20 @@ public class TerathDredgionInstance extends GeneralInstanceHandler
 	}
 	
 	@Override
-	public boolean onReviveEvent(Player player) {
-		PacketSendUtility.sendPacket(player, SM_SYSTEM_MESSAGE.STR_REBIRTH_MASSAGE_ME);
-		PlayerReviveService.revive(player, 100, 100, false, 0);
+    public boolean onReviveEvent(Player player) {
 		player.getGameStats().updateStatsAndSpeedVisually();
-		dredgionReward.portToPosition(player);
+		PlayerReviveService.revive(player, 100, 100, false, 0);
+		PacketSendUtility.sendPacket(player, SM_SYSTEM_MESSAGE.STR_REBIRTH_MASSAGE_ME);
+		PacketSendUtility.sendPacket(player, new SM_QUESTION_WINDOW(SM_QUESTION_WINDOW.STR_INSTANT_DUNGEON_RESURRECT, 0, 0));
+        dredgionReward.portToPosition(player);
 		return true;
-	}
+    }
 	
 	@Override
 	public boolean onDie(Player player, Creature lastAttacker) {
 		int points = 60;
+		PacketSendUtility.broadcastPacket(player, new SM_EMOTION(player, EmotionType.DIE, 0, player.equals(lastAttacker) ? 0 : lastAttacker.getObjectId()), true);
+        PacketSendUtility.sendPacket(player, new SM_DIE(player.haveSelfRezEffect(), false, 0, 8));
 		if (lastAttacker instanceof Player) {
 			if (lastAttacker.getRace() != player.getRace()) {
 				InstancePlayerReward playerReward = getPlayerReward(player);
