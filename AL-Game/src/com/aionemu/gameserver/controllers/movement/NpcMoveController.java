@@ -48,7 +48,7 @@ import com.aionemu.gameserver.geoEngine.math.Vector3f;
 public class NpcMoveController
         extends CreatureMoveController<Npc> {
     private static final Logger log = LoggerFactory.getLogger(NpcMoveController.class);
-    public static final float MOVE_CHECK_OFFSET = 0.1f;
+    public static final float MOVE_CHECK_OFFSET = 0.5f;
     private static final float MOVE_OFFSET = 0.05f;
     private int returnAttempts;
     private Destination destination = Destination.TARGET_OBJECT;
@@ -184,6 +184,9 @@ public class NpcMoveController
                     if (!(target instanceof Creature)) { //instanceof returns false if target is null.
                         return;
                     }
+
+                    //cachedPathValid = true;
+
                     if ((MathUtil.getDistance(target.getX(), target.getY(), pointZ, pointX, pointY, pointZ) > MOVE_CHECK_OFFSET)) {
                         Creature creature = (Creature) target;
                         offset = owner.getController().getAttackDistanceToTarget();
@@ -192,9 +195,13 @@ public class NpcMoveController
                         pointZ = getTargetZ(owner, creature);
                         cachedPathValid = false;
                     }
+
                     if (!cachedPathValid || cachedPath == null) {
                         if (GeoDataConfig.GEO_NAV_ENABLE) {
-                          cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
+                          if (owner.getGameStats().checkGeoNeedPathUpdate()) {
+                              cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
+                          }
+                          //cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
                           if (cachedPath != null) { //Add a bit of randomness to the last point to prevent entities from stacking directly ontop of eachother.
                               //TODO: Move to NavService and make sure this random point is on the navmesh!
                               if (cachedPath.length != 1) {

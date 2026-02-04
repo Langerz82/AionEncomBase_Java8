@@ -52,6 +52,9 @@ public class WalkManager {
 	public static boolean startWalking(NpcAI2 npcAI) {
 		npcAI.setStateIfNot(AIState.WALKING);
 		Npc owner = npcAI.getOwner();
+		if (!owner.getPosition().getWorld().isAnyPlayerInMap(owner))
+			return true;
+
 		WalkerTemplate template = DataManager.WALKER_DATA.getWalkerTemplate(owner.getSpawn().getWalkerId());
 		if (template != null) {
 			npcAI.setSubStateIfNot(AISubState.WALK_PATH);
@@ -254,19 +257,13 @@ public class WalkManager {
 
 			@Override
 			public void run() {
-					//log.info("[WalkManager] chooseNextRandomPoint, thread run.");
-					//log.info("[WalkManager] chooseNextRandomPoint, getState:"+npcAI.getState());
-					//log.info("[WalkManager] chooseNextRandomPoint, getSubState:"+npcAI.getSubState());
-				if (npcAI.isInState(AIState.WALKING)) {
-					owner.getMoveController().setCurrentRoute(null);
-					owner.getMoveController().abortMove();
-				}
-
-
 				if (!npcAI.isAnyPlayerNearRandomWalk()) {
 					chooseNextRandomPoint(npcAI);
 					return;
 				}
+					//log.info("[WalkManager] chooseNextRandomPoint, thread run.");
+					//log.info("[WalkManager] chooseNextRandomPoint, getState:"+npcAI.getState());
+					//log.info("[WalkManager] chooseNextRandomPoint, getSubState:"+npcAI.getSubState());
 
 				if (npcAI.isInState(AIState.WALKING)) {
 					float distToSpawn = (float) owner.getDistanceToSpawnLocation();

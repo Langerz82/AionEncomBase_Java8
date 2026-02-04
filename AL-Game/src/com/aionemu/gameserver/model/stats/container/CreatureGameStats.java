@@ -47,6 +47,7 @@ public abstract class CreatureGameStats<T extends Creature> {
 	protected static final Logger log = LoggerFactory.getLogger(CreatureGameStats.class);
 	private static final int ATTACK_MAX_COUNTER = Integer.MAX_VALUE;
 	private long lastGeoUpdate = 0;
+	private long lastGeoPathUpdate = 0;
 	private FastMap<StatEnum, TreeSet<IStatFunction>> stats;
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 	private int attackCounter = 0;
@@ -356,6 +357,18 @@ public abstract class CreatureGameStats<T extends Creature> {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - lastGeoUpdate > GeoDataConfig.GEO_UPDATE_INTERVAL) {
 			lastGeoUpdate = currentTime;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean checkGeoNeedPathUpdate() {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - lastGeoPathUpdate > GeoDataConfig.GEO_UPDATE_PATH_INTERVAL) {
+			lastGeoPathUpdate = currentTime;
 			return true;
 		}
 		return false;
