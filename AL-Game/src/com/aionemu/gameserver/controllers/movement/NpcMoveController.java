@@ -198,10 +198,10 @@ public class NpcMoveController
 
                     if (!cachedPathValid || cachedPath == null) {
                         if (GeoDataConfig.GEO_NAV_ENABLE) {
-                          if (owner.getGameStats().checkGeoNeedPathUpdate()) {
+                          /*if (owner.getGameStats().checkGeoNeedPathUpdate()) {
                               cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
-                          }
-                          //cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
+                          }*/
+                          cachedPath = NavService.getInstance().navigateToTarget(owner, (Creature) target);
                           if (cachedPath != null) { //Add a bit of randomness to the last point to prevent entities from stacking directly ontop of eachother.
                               //TODO: Move to NavService and make sure this random point is on the navmesh!
                               if (cachedPath.length != 1) {
