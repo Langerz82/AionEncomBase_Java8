@@ -72,6 +72,7 @@ public class MapRegion {
 	 * Objects on this map region.
 	 */
 	private final FastMap<Integer, VisibleObject> objects = new FastMap<Integer, VisibleObject>().shared();
+	private final FastMap<Integer, VisibleObject> players = new FastMap<Integer, VisibleObject>().shared();
 
 	private final AtomicInteger playerCount = new AtomicInteger(0);
 
@@ -142,6 +143,15 @@ public class MapRegion {
 		return objects;
 	}
 
+	/**
+	 * Returns iterator over AionObjects on this region
+	 *
+	 * @return players iterator
+	 */
+	public FastMap<Integer, VisibleObject> getPlayers() {
+		return players;
+	}
+
 	public Map<Integer, StaticDoor> getDoors() {
 		Map<Integer, StaticDoor> doors = new HashMap<Integer, StaticDoor>();
 		for (VisibleObject obj : objects.values()) {
@@ -178,6 +188,7 @@ public class MapRegion {
 		if (objects.put(object.getObjectId(), object) == null) {
 			if (object instanceof Player) {
 				checkActiveness(playerCount.incrementAndGet() > 0);
+				players.put(object.getObjectId(), object);
 			} else if (DeveloperConfig.SPAWN_CHECK) {
 				Iterator<TreeSet<ZoneInstance>> zoneIter = zoneMap.values().iterator();
 				while (zoneIter.hasNext()) {
@@ -206,6 +217,7 @@ public class MapRegion {
 		if (objects.remove(object.getObjectId()) != null) {
 			if (object instanceof Player) {
 				checkActiveness(playerCount.decrementAndGet() > 0);
+				players.remove(object.getObjectId());
 			}
 		}
 	}

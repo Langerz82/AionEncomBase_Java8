@@ -191,6 +191,7 @@ public final class NavService {
 		if (target == null) return null;
 //		if (target.getLifeStats().isAlreadyDead()) return null;
 		if (pathOwner.getWorldId() != target.getWorldId()) return null;
+		if (!pathOwner.getGameStats().checkGeoNeedPathUpdate()) return null;
 
 		int worldId = pathOwner.getWorldId();
 		float x1 = pathOwner.getX(), y1 = pathOwner.getY(), z1 = pathOwner.getZ();
@@ -203,6 +204,8 @@ public final class NavService {
 		//basic checks
 		if (pathOwner == null) return null;
 		if (pathOwner.getLifeStats().isAlreadyDead()) return null;
+		if (!pathOwner.getGameStats().checkGeoNeedPathUpdate()) return null;
+
 		int worldId = pathOwner.getWorldId();
 		float x1 = pathOwner.getX(), y1 = pathOwner.getY(), z1 = pathOwner.getZ();
 		//TO-DO: Use Cached Tile for Creature

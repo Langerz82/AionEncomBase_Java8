@@ -65,6 +65,7 @@ public class NpcMoveController
     private boolean cachedPathValid;
     private float[][] cachedPath;
     private FollowMotor _followMotor;
+    private boolean firstMove = false;
 
     public NpcMoveController(Npc owner) {
         super(owner);
@@ -99,6 +100,7 @@ public class NpcMoveController
             destination = Destination.TARGET_OBJECT;
             updateLastMove();
             MoveTaskManager.getInstance().addCreature(owner);
+            firstMove = true;
         }
     }
 
@@ -113,6 +115,7 @@ public class NpcMoveController
             pointZ = z;
             updateLastMove();
             MoveTaskManager.getInstance().addCreature(owner);
+            firstMove = true;
         }
     }
 
@@ -123,13 +126,18 @@ public class NpcMoveController
                 AI2Logger.moveinfo(owner, "MC: moveToHome started");
             }
             cachedPathValid = false;
-            float x = owner.getSpawn().getX(), y = owner.getSpawn().getY(), z = owner.getSpawn().getZ();
+            //float x = owner.getSpawn().getX(), y = owner.getSpawn().getY(), z = owner.getSpawn().getZ();
             destination = Destination.HOME;
-            pointX = x;
-            pointY = y;
-            pointZ = z;
+            //pointX = x;
+            //pointY = y;
+            //pointZ = z;
+            pointX = owner.getSpawn().getX();
+            pointY = owner.getSpawn().getY();
+            pointZ = owner.getSpawn().getZ();
+
             updateLastMove();
             MoveTaskManager.getInstance().addCreature(owner);
+            firstMove = true;
         }
     }
 
@@ -141,6 +149,7 @@ public class NpcMoveController
             destination = Destination.POINT;
             updateLastMove();
             MoveTaskManager.getInstance().addCreature(owner);
+            firstMove = true;
         }
     }
 
@@ -415,7 +424,8 @@ public class NpcMoveController
     }
 
     private byte getMoveMask(boolean directionChanged) {
-        if (directionChanged) {
+        if (directionChanged || firstMove) {
+            firstMove = false;
             return MovementMask.NPC_STARTMOVE;
         }
         if (((Npc)this.owner).getAi2().getState() == AIState.RETURNING) {
@@ -606,33 +616,4 @@ public class NpcMoveController
     public void skillMovement() {
         // TODO Auto-generated method stub
     }
-
-    public boolean checkLinePoint(Vector3f dest) {
-  		Vector3f p1 = new Vector3f(owner.getX(), owner.getY(), owner.getZ());
-  		Vector3f p2 = new Vector3f(dest.x, dest.y, dest.z);
-  		float dist = (float) MathUtil.getDistance(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-  		//int points = (int) Math.ceil(dist);
-  		float prevZ = p1.z;
-      float fi = AIConfig.MOVE_SLANT_INTERVAL;
-      float threshold = AIConfig.MOVE_SLANT_INTERVAL * AIConfig.MAXIMUM_MOVE_SLANT;
-
-      float[] fp1 = p1.toArray(null);
-      float[] fp2 = p2.toArray(null);
-  		while (fi < dist)
-  		{
-  			float[] fp3 = MathUtil.getPointBetweenLine(fp1, fp2, (float) fi/dist);
-
-  			if (GeoDataConfig.GEO_ENABLE && GeoDataConfig.GEO_NPC_MOVE) {
-  				float tz = getTargetZ(owner, fp3[0], fp3[1], fp3[2]);
-  				float cz = Math.abs(prevZ - tz);
-  				if (cz > threshold) {
-  					return false;
-  				}
-  				prevZ = tz;
-  			}
-        fi += AIConfig.MOVE_SLANT_INTERVAL;
-  		}
-  		return true;
-  	}
-
 }

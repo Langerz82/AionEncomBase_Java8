@@ -109,6 +109,20 @@ public class KnownList {
 	}
 
 	/**
+	 * Clear known list without Delete.
+	 */
+	/*public void clearWithoutDelete() {
+		knownObjects.clear();
+		if (knownPlayers != null) {
+			knownPlayers.clear();
+		}
+		visualObjects.clear();
+		if (visualPlayers != null) {
+			visualPlayers.clear();
+		}
+	}*/
+
+	/**
 	 * Check if object is known
 	 *
 	 * @param object
@@ -207,6 +221,7 @@ public class KnownList {
 		for (int i = 0; i < regions.length; i++) {
 			MapRegion r = regions[i];
 			FastMap<Integer, VisibleObject> objects = r.getObjects();
+			//log.info("[KnownList] findVisibleObjects, objects.size="+objects.size());
 			for (FastMap.Entry<Integer, VisibleObject> e = objects.head(),
 					mapEnd = objects.tail(); (e = e.getNext()) != mapEnd;) {
 				VisibleObject newObject = e.getValue();
@@ -377,4 +392,41 @@ public class KnownList {
 	public VisibleObject getObject(int targetObjectId) {
 		return this.knownObjects.get(targetObjectId);
 	}
+
+	/**
+	 * Find objects that are in visibility range.
+	 */
+	public boolean isVisibleAnyPlayer() {
+		if (owner == null || !owner.isSpawned())
+			return false;
+
+		// Optimization.
+		if (visualPlayers != null && visualPlayers.size() > 0) {
+			for (Player player : getVisiblePlayers().values()) {
+				if (checkObjectInRange(player)) {
+					return true;
+				}
+			}
+		}
+
+		MapRegion[] regions = owner.getActiveRegion().getNeighbours();
+		for (int i = 0; i < regions.length; i++) {
+			MapRegion r = regions[i];
+			FastMap<Integer, VisibleObject> objects = r.getPlayers();
+			for (FastMap.Entry<Integer, VisibleObject> e = objects.head(),
+					mapEnd = objects.tail(); (e = e.getNext()) != mapEnd;) {
+				VisibleObject newObject = e.getValue();
+				if (newObject == owner || newObject == null) {
+					continue;
+				}
+				if (!checkObjectInRange(newObject)) {
+					continue;
+				}
+				if (newObject instanceof Player)
+					return true;
+			}
+		}
+		return false;
+	}
+
 }

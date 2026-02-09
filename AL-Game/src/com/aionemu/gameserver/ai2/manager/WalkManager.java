@@ -245,27 +245,23 @@ public class WalkManager {
 		//log.info("WalkManager chooseNextRandomPoint.");
 		final Npc owner = npcAI.getOwner();
 
-		//if (npcAI.isInState(AIState.WALKING)) {
-		//owner.getMoveController().setCurrentRoute(null);
-			//owner.getMoveController().resetMove();
-		//}
 		owner.getMoveController().abortMove();
-		final int randomWalkNr = owner.getSpawn().getRandomWalk();
-		final int walkRange = Math.max(randomWalkNr, WALK_RANDOM_RANGE);
 
 		ThreadPoolManager.getInstance().schedule(new Runnable() {
 
 			@Override
 			public void run() {
-				if (!npcAI.isAnyPlayerNearRandomWalk()) {
-					chooseNextRandomPoint(npcAI);
-					return;
-				}
-					//log.info("[WalkManager] chooseNextRandomPoint, thread run.");
-					//log.info("[WalkManager] chooseNextRandomPoint, getState:"+npcAI.getState());
-					//log.info("[WalkManager] chooseNextRandomPoint, getSubState:"+npcAI.getSubState());
-
 				if (npcAI.isInState(AIState.WALKING)) {
+					if (!owner.canSeeAnyPlayer()) {
+						owner.getMoveController().abortMove();
+						stopWalking(npcAI);
+						//chooseNextRandomPoint(npcAI);
+						//npcAI.setStateIfNot(AIState.WALKING);
+						//npcAI.setSubStateIfNot(AISubState.WALK_RANDOM);
+						return;
+					}
+
+					final int walkRange = Math.max(owner.getSpawn().getRandomWalk(), WALK_RANDOM_RANGE);
 					float distToSpawn = (float) owner.getDistanceToSpawnLocation();
 					if (distToSpawn > walkRange) {
 						owner.getMoveController().moveToHome();
@@ -277,52 +273,25 @@ public class WalkManager {
 					while(i++ < AIConfig.RANDOM_MAX_TRIES) {
 						int nextX = Rnd.nextInt(walkRange * 2) - walkRange;
 						int nextY = Rnd.nextInt(walkRange * 2) - walkRange;
+						if (nextX == 0 && nextY == 0)
+							continue;
 
 						if (GeoDataConfig.GEO_ENABLE && GeoDataConfig.GEO_NPC_MOVE) {
 							byte flags = (byte) (CollisionIntention.PHYSICAL.getId() | CollisionIntention.DOOR.getId() | CollisionIntention.WALK.getId());
 							loc = GeoService.getInstance().getClosestCollision(owner, owner.getX() + nextX, owner.getY() + nextY, owner.getZ(), true, flags);
 
-							if (owner.isFlying())
+							if (owner.isFlying()) {
 								break;
+							}
 
 							float dxy = (Math.abs(nextX) + Math.abs(nextY)) * AIConfig.MAXIMUM_MOVE_SLANT;
 							float cxy = Math.abs(owner.getZ() - loc.z);
-							if (cxy > dxy)
+							if (cxy > dxy) {
 								continue;
+							}
 
-							if (!GeoService.getInstance().canSee(owner, loc.x, loc.y, owner.getZ()))
+							if (!GeoService.getInstance().canSee(owner, loc.x, loc.y, owner.getZ())) {
 								continue;
-
-							if (!((owner.getX() + nextX) == loc.x && (owner.getY() + nextY) == loc.y))
-								continue;
-
-							if (AIConfig.CHECK_LINE_POINTS && !owner.getMoveController().checkLinePoint(loc))
-								continue;
-
-							if (GeoDataConfig.GEO_NAV_ENABLE) {
-								/*
-								// TODO remove temp benchmarking code.
-								int iterations = 100;
-								long startTime = (new Date()).getTime();
-								for (int j = 0; j < iterations; ++j) {
-									float[][] result = NavService.getInstance().navigateToLocation(owner, loc.x, loc.y, loc.z);
-								}
-								long endTime = (new Date()).getTime();
-								long res1 = (endTime-startTime);
-
-								startTime = (new Date()).getTime();
-								for (int j = 0; j < iterations; ++j) {
-									boolean result = NavService.getInstance().canMoveStraightLinePath(owner, loc.x, loc.y, loc.z);
-								}
-								endTime = (new Date()).getTime();
-								long res2 = (endTime-startTime);
-								log.info("[WalkManager] canMoveStraightLinePath time:"+res2+", navigateToLocation time:"+res1);
-								*/
-
-								// Beanchmark tested and this is faster than navigateToLocation in general.
-								boolean result = NavService.getInstance().canMoveStraightLinePath(owner, loc.x, loc.y, loc.z);
-								if (!result)
-									continue;
 							}
 
 							break;
@@ -332,15 +301,14 @@ public class WalkManager {
 							break;
 						}
 					}
-					if (i == AIConfig.RANDOM_MAX_TRIES) {
+
+					if (loc == null || i == AIConfig.RANDOM_MAX_TRIES) {
 						owner.getMoveController().moveToHome();
 						return;
 					}
 					if (loc != null) {
-						//npcAI.setSubStateIfNot(AISubState.WALK_RANDOM);
-						//if (!startPathWalking(npcAI, loc.x, loc.y, loc.z)) {
 						owner.getMoveController().moveToPoint(loc.x, loc.y, loc.z);
-						//}
+						return;
 					}
 				}
 			}

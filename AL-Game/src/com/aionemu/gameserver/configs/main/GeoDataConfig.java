@@ -91,7 +91,7 @@ public class GeoDataConfig {
 	@Property(key = "gameserver.geo.nav.geoupdate.interval", defaultValue = "600")
 	public static int GEO_UPDATE_INTERVAL;
 
-	@Property(key = "gameserver.geo.nav.pathupdate.interval", defaultValue = "5000")
+	@Property(key = "gameserver.geo.nav.pathupdate.interval", defaultValue = "3000")
 	public static int GEO_UPDATE_PATH_INTERVAL;
 
 }
