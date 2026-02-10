@@ -253,7 +253,7 @@ public class WalkManager {
 			public void run() {
 				if (npcAI.isInState(AIState.WALKING)) {
 					if (!owner.canSeeAnyPlayer()) {
-						owner.getMoveController().abortMove();
+						//owner.getMoveController().abortMove();
 						stopWalking(npcAI);
 						//chooseNextRandomPoint(npcAI);
 						//npcAI.setStateIfNot(AIState.WALKING);
