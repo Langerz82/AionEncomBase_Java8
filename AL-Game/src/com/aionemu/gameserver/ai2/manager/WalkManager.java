@@ -17,6 +17,10 @@
 package com.aionemu.gameserver.ai2.manager;
 
 import java.util.List;
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.aionemu.commons.utils.Rnd;
 import com.aionemu.gameserver.ai2.AIState;
@@ -33,12 +37,13 @@ import com.aionemu.gameserver.model.templates.walker.WalkerTemplate;
 import com.aionemu.gameserver.utils.MathUtil;
 import com.aionemu.gameserver.utils.ThreadPoolManager;
 import com.aionemu.gameserver.world.geo.GeoService;
+import com.aionemu.gameserver.world.geo.nav.NavService;
 
 /**
  * @author ATracer
  */
 public class WalkManager {
-
+	private static final Logger log = LoggerFactory.getLogger(WalkManager.class);
 	private static final int WALK_RANDOM_RANGE = 5;
 
 	/**
@@ -47,6 +52,9 @@ public class WalkManager {
 	public static boolean startWalking(NpcAI2 npcAI) {
 		npcAI.setStateIfNot(AIState.WALKING);
 		Npc owner = npcAI.getOwner();
+		if (!owner.getPosition().getWorld().isAnyPlayerInMap(owner))
+			return true;
+
 		WalkerTemplate template = DataManager.WALKER_DATA.getWalkerTemplate(owner.getSpawn().getWalkerId());
 		if (template != null) {
 			npcAI.setSubStateIfNot(AISubState.WALK_PATH);
@@ -160,7 +168,7 @@ public class WalkManager {
 	/**
 	 * Is this npc will walk. Currently all monsters will walk and those npc wich
 	 * has walk routes
-	 * 
+	 *
 	 * @param npcAI
 	 * @return
 	 */
@@ -234,6 +242,83 @@ public class WalkManager {
 	 * @param npcAI
 	 */
 	private static void chooseNextRandomPoint(final NpcAI2 npcAI) {
+		//log.info("WalkManager chooseNextRandomPoint.");
+		final Npc owner = npcAI.getOwner();
+
+		owner.getMoveController().abortMove();
+
+		ThreadPoolManager.getInstance().schedule(new Runnable() {
+
+			@Override
+			public void run() {
+				if (npcAI.isInState(AIState.WALKING)) {
+					if (!owner.canSeeAnyPlayer()) {
+						//owner.getMoveController().abortMove();
+						stopWalking(npcAI);
+						//chooseNextRandomPoint(npcAI);
+						//npcAI.setStateIfNot(AIState.WALKING);
+						//npcAI.setSubStateIfNot(AISubState.WALK_RANDOM);
+						return;
+					}
+
+					final int walkRange = Math.max(owner.getSpawn().getRandomWalk(), WALK_RANDOM_RANGE);
+					float distToSpawn = (float) owner.getDistanceToSpawnLocation();
+					if (distToSpawn > walkRange) {
+						owner.getMoveController().moveToHome();
+						return;
+					}
+
+					Vector3f loc = null;
+					int i=0;
+					while(i++ < AIConfig.RANDOM_MAX_TRIES) {
+						int nextX = Rnd.nextInt(walkRange * 2) - walkRange;
+						int nextY = Rnd.nextInt(walkRange * 2) - walkRange;
+						if (nextX == 0 && nextY == 0)
+							continue;
+
+						if (GeoDataConfig.GEO_ENABLE && GeoDataConfig.GEO_NPC_MOVE) {
+							byte flags = (byte) (CollisionIntention.PHYSICAL.getId() | CollisionIntention.DOOR.getId() | CollisionIntention.WALK.getId());
+							loc = GeoService.getInstance().getClosestCollision(owner, owner.getX() + nextX, owner.getY() + nextY, owner.getZ(), true, flags);
+
+							if (owner.isFlying()) {
+								break;
+							}
+
+							float dxy = (Math.abs(nextX) + Math.abs(nextY)) * AIConfig.MAXIMUM_MOVE_SLANT;
+							float cxy = Math.abs(owner.getZ() - loc.z);
+							if (cxy > dxy) {
+								continue;
+							}
+
+							if (!GeoService.getInstance().canSee(owner, loc.x, loc.y, owner.getZ())) {
+								continue;
+							}
+
+							break;
+						}
+						else {
+							loc = new Vector3f(owner.getX() + nextX, owner.getY() + nextY, owner.getZ());
+							break;
+						}
+					}
+
+					if (loc == null || i == AIConfig.RANDOM_MAX_TRIES) {
+						owner.getMoveController().moveToHome();
+						return;
+					}
+					if (loc != null) {
+						owner.getMoveController().moveToPoint(loc.x, loc.y, loc.z);
+						return;
+					}
+				}
+			}
+		}, Rnd.get(AIConfig.MINIMIMUM_DELAY, AIConfig.MAXIMUM_DELAY) * 1000);
+	}
+
+	/**
+	 * @param npcAI
+	 */
+	/*private static void chooseNextRandomPoint(final NpcAI2 npcAI) {
 		final Npc owner = npcAI.getOwner();
 		owner.getMoveController().abortMove();
 		int randomWalkNr = owner.getSpawn().getRandomWalk();
@@ -265,7 +350,7 @@ public class WalkManager {
 				}
 			}
 		}, Rnd.get(AIConfig.MINIMIMUM_DELAY, AIConfig.MAXIMUM_DELAY) * 1000);
-	}
+	}*/
 
 	/**
 	 * @param npcAI

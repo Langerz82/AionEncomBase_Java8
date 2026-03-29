@@ -1,9 +1,7 @@
 @echo off
-TITLE Aion 5.8 - Game Emu Console
-@COLOR 4B
-REM -------------------------------------
-REM Указываем свой путь к JDK8
-SET PATH="E:\Java\jdk1.8.0_321\bin"
+TITLE Aion 5.8 - Game Server Console
+
+REM SET PATH="C:\Program Files\Java\jre1.8.0_441\bin"
 
 :START
 CLS

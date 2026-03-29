@@ -551,6 +551,18 @@ public abstract class Creature extends VisibleObject {
 		return getKnownList().getVisiblePlayers().containsKey(player.getObjectId());
 	}
 
+	public boolean canSeeAnyPlayer() {
+		// Refresh Known Lists.
+		//getKnownList().isVisibleAnyPlayer();
+		return getKnownList().isVisibleAnyPlayer();
+	}
+
+	// Refresh Known Lists.
+	/*public void refreshKnownList() {
+		getKnownList().clearWithoutDelete();
+		updateKnownlist();
+	}*/
+
 	/**
 	 * @return NpcObjectType.NORMAL
 	 */

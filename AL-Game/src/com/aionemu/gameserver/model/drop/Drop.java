@@ -104,6 +104,10 @@ public class Drop implements DropCalculator {
 			percent *= dropModifier;
 			percent = percent - RateConfig.DROP_RATE_REDUCE;
 		}
+		if (noReduce && dropModifier < 1) {
+			percent *= dropModifier;
+		}
+
 		if (Rnd.get() * 100 < percent) {
 			if (eachMember && (groupMembers != null) && (!groupMembers.isEmpty())) {
 				for (Player player : groupMembers) {

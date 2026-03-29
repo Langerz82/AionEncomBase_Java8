@@ -188,4 +188,11 @@ public class NpcAI2 extends AITemplate {
 	public boolean isMoveSupported() {
 		return getOwner().getGameStats().getMovementSpeedFloat() > 0 && !this.isInSubState(AISubState.FREEZE);
 	}
+
+	public boolean isAnyPlayerNearRandomWalk() {
+		if (!AIConfig.RANDOMWALK_THRESHOLD)
+		 	return false;
+
+		return getOwner().getPosition().getWorld().isAnyPlayerNear(getOwner(), AIConfig.RANDOMWALK_PLAYERMAXDIST);
+	}
 }

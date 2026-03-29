@@ -136,6 +136,13 @@ public class Point3D implements Cloneable, Serializable {
 		this.z = z;
 	}
 
+	public float[] toArray(float[] floats) {
+		if (floats == null) {
+			floats = new float[] { this.x, this.y, this.z };
+		}
+		return floats;
+	}
+
 	/**
 	 * Checks if this point is equal to another point
 	 * 

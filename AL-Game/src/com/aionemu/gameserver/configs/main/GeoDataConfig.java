@@ -83,8 +83,15 @@ public class GeoDataConfig {
 	/**
 	 * If you use monon2 geo data for your server
 	 */
-	@Property(key = "gameserver.geodata.monon2.in.use", defaultValue = "fasle")
+	@Property(key = "gameserver.geodata.monon2.in.use", defaultValue = "false")
 	public static boolean GEO_MONONO2_IN_USE;
 	@Property(key = "gameserver.geo.nav.pathfinding.enable", defaultValue = "false")
 	public static boolean GEO_NAV_ENABLE;
+
+	@Property(key = "gameserver.geo.nav.geoupdate.interval", defaultValue = "600")
+	public static int GEO_UPDATE_INTERVAL;
+
+	@Property(key = "gameserver.geo.nav.pathupdate.interval", defaultValue = "3000")
+	public static int GEO_UPDATE_PATH_INTERVAL;
+
 }

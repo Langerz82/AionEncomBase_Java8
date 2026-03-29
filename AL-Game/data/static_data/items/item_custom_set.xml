@@ -23,8 +23,8 @@
     <item_custom_set id="17" name="test_set7" custom_enchant_value="5"/>
     <item_custom_set id="18" name="event_wing_set1" custom_enchant_value="3"/>
     <item_custom_set id="19" name="event_wing_set2" custom_enchant_value="10"/>
-    <item_custom_set id="20" name="quest_mission_lv10_phy_set1" custom_enchant_value="10"/>
-    <item_custom_set id="21" name="quest_mission_lv10_mag_set1" custom_enchant_value="10"/>
+    <item_custom_set id="20" name="quest_mission_lv10_phy_set1" custom_enchant_value="0"/>
+    <item_custom_set id="21" name="quest_mission_lv10_mag_set1" custom_enchant_value="0"/>
     <item_custom_set id="22" name="event_wing_set3" custom_enchant_value="5"/>
     <item_custom_set id="23" name="starweapon3_set1" custom_enchant_value="5"/>
 	<item_custom_set id="24" name="jumping_phy_set_65a" custom_enchant_value="15"/>
@@ -39,8 +39,8 @@
 	<item_custom_set id="33" name="growup_1st_mag_set_55a" custom_enchant_value="10"/>
 	<item_custom_set id="34" name="growup_2nd_phy_set_68a" custom_enchant_value="10"/>
 	<item_custom_set id="35" name="growup_2nd_mag_set_68a" custom_enchant_value="10"/>
-	<item_custom_set id="36" name="growup_sp_1st_phy_set_30a" custom_enchant_value="10"/>
-	<item_custom_set id="37" name="growup_sp_1st_mag_set_30a" custom_enchant_value="10"/>
+	<item_custom_set id="36" name="growup_sp_1st_phy_set_30a" custom_enchant_value="0"/>
+	<item_custom_set id="37" name="growup_sp_1st_mag_set_30a" custom_enchant_value="0"/>
 	<item_custom_set id="38" name="mystery_live_wi_set_75a" custom_enchant_value="15"/>
 	<item_custom_set id="39" name="mystery_live_el_set_75a" custom_enchant_value="15"/>
 	<item_custom_set id="40" name="mystery_live_ba_set_75a" custom_enchant_value="15"/>

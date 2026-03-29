@@ -26,6 +26,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 import com.aionemu.commons.utils.Rnd;
+
+import com.aionemu.gameserver.configs.main.DropConfig;
 import com.aionemu.gameserver.model.Race;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
 
@@ -67,9 +69,20 @@ public class DropGroup implements DropCalculator {
     public int dropCalculator(Set<DropItem> result, int index, float dropModifier, Race race,
         Collection<Player> groupMembers) {
     if (drop == null || drop.isEmpty()) {
-        System.out.println("The drop list is empty!"); 
+        System.out.println("The drop list is empty!");
         return index;
     }
+
+		// Custom rates for drops. - Langerz82
+		if (group_name.endsWith("_RARE")) {
+			dropModifier *= DropConfig.DROP_RATE_RARE;
+		}
+		else if (group_name.endsWith("_LEGEND")) {
+			dropModifier *= DropConfig.DROP_RATE_LEGEND;
+		}
+		else if (group_name.endsWith("_UNIQUE")) {
+			dropModifier *= DropConfig.DROP_RATE_UNIQUE;
+		}
 
     if (useCategory) {
         Drop d = drop.get(Rnd.get(0, drop.size() - 1));
